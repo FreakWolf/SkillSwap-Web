@@ -37,8 +37,8 @@ To get a local copy of SkillSwap up and running for development, follow these st
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/yourusername/skillswap.git
-cd skillswap
+git clone [https://github.com/yourusername/skillswap.git](https://github.com/FreakWolf/SkillSwap-Web.git)
+cd SkillSwap-Web
 ```
 
 ### 2. Install Dependencies

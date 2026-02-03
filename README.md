@@ -1,70 +1,127 @@
-# Getting Started with Create React App
+# SkillSwap - Connect, Learn, Grow
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SkillSwap is an innovative web application designed to foster a community of learning and skill exchange. Users can effortlessly offer their expertise in various domains and discover new skills they wish to acquire. Our platform aims to connect individuals, enabling them to share knowledge, collaborate, and grow together.
 
-## Available Scripts
+## Key Features
 
-In the project directory, you can run:
+*   **Personalized Profiles**: Users can create and manage detailed profiles, showcasing their skills, availability, and preferences.
+*   **Skill Management**: Easily add skills you can teach or want to learn, categorized by type and proficiency level.
+*   **Availability Calendar**: Set your weekly availability for teaching or learning sessions.
+*   **Skill Marketplace**: Browse and discover skills offered by other users.
+*   **Analytics Dashboard**: Track your learning progress and session statistics.
+*   **Responsive Design**: Optimized for desktop and mobile devices.
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   **React 19**: Modern JavaScript library for building user interfaces.
+*   **TypeScript**: Type-safe JavaScript superset for improved development experience.
+*   **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
+*   **@radix-ui**: Accessible UI component library for building high-quality interfaces.
+*   **class-variance-authority**: Utility for defining and managing component variants.
+*   **react-day-picker**: Flexible date picker component for React.
+*   **recharts**: Composable charting library built on React components.
+*   **lucide-react**: Beautiful and consistent icon library.
+*   **React Hook Form**: Performant, flexible forms library for React.
+*   **Create React App**: Development environment and build tool for React applications.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started (Development Setup)
 
-### `npm test`
+To get a local copy of SkillSwap up and running for development, follow these steps.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+*   Node.js (version 14 or higher)
+*   npm or Yarn
+*   Git
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Clone the Repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+git clone https://github.com/yourusername/skillswap.git
+cd skillswap
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Install Dependencies
 
-### `npm run eject`
+Navigate to the project's root directory in your terminal and install the required Node.js packages:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```sh
+# Using npm
+npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# OR using Yarn
+yarn install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Start the Development Server
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Start the development server with the following command:
+
+```sh
+# Using npm
+npm start
+
+# OR using Yarn
+yarn start
+```
+
+The application will automatically open in your default browser at [http://localhost:3000](http://localhost:3000).
+
+### 4. Build for Production
+
+To create a production build of the application, run:
+
+```sh
+# Using npm
+npm run build
+
+# OR using Yarn
+yarn build
+```
+
+This will generate a `build` directory containing the optimized production build.
+
+## Making Changes (Development Workflow)
+
+*   **Fast Refresh**: When you modify files in your text editor and save them, your app will automatically update to reflect these changes, thanks to Fast Refresh.
+*   **Full Reload**: To perform a full reload, press <kbd>F5</kbd> in your browser or use the reload button.
+
+## Project Structure
+
+```
+skillswap/
+├── src/
+│   ├── components/          # React components
+│   │   ├── ui/              # UI component library
+│   │   ├── AnalyticsDashboard.tsx
+│   │   ├── BookingScreen.tsx
+│   │   ├── SkillMarketplace.tsx
+│   │   └── ...
+│   ├── App.tsx              # Main application component
+│   ├── index.css            # Global styles with Tailwind directives
+│   ├── index.js             # Application entry point
+│   └── ...
+├── tailwind.config.js       # Tailwind CSS configuration
+├── postcss.config.js        # PostCSS configuration
+├── package.json             # Project dependencies and scripts
+├── tsconfig.json            # TypeScript configuration
+└── README.md                # This file
+```
+
+## Troubleshooting
+
+If you encounter any issues during setup or development, please refer to the following resources:
+
+*   [Create React App Troubleshooting](https://create-react-app.dev/docs/troubleshooting/)
+*   [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+*   [React Documentation](https://react.dev/learn)
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+For further information on the technologies used in this project, explore these resources:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   [React Official Website](https://react.dev)
+*   [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+*   [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+*   [@radix-ui Documentation](https://www.radix-ui.com/docs)
+*   [Create React App Documentation](https://create-react-app.dev/docs/getting-started/)

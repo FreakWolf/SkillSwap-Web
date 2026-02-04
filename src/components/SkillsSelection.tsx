@@ -11,6 +11,7 @@ import { Plus, X } from 'lucide-react';
 interface SkillsSelectionProps {
   userData: any;
   onComplete: (skillsData: any) => void;
+  onNavigate: (screen: string) => void;
 }
 
 interface Skill {
@@ -19,7 +20,7 @@ interface Skill {
   category: string;
 }
 
-export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) {
+export function SkillsSelection({ userData, onComplete, onNavigate }: SkillsSelectionProps) {
   const [teachSkills, setTeachSkills] = useState<Skill[]>([]);
   const [learnSkills, setLearnSkills] = useState<Skill[]>([]);
   const [newSkill, setNewSkill] = useState<{ name: string; level: 'beginner' | 'intermediate' | 'expert'; category: string }>({ name: '', level: 'beginner', category: '' });
@@ -89,10 +90,10 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
             <span className="text-muted-foreground text-sm">No skills selected yet</span>
           ) : (
             skills.map((skill) => (
-              <Badge key={skill.name} variant="secondary" className="flex items-center gap-1 text-xs">
+              <Badge key={skill.name} variant="secondary" className="flex items-center gap-1 text-xs bg-neutral-200 text-black">
                 {skill.name} ({skill.level})
                 <X 
-                  className="w-3 h-3 cursor-pointer" 
+                  className="w-3 h-3 cursor-pointer clickable text-black"
                   onClick={() => removeSkill(skills, setSkills, skill.name)}
                 />
               </Badge>
@@ -112,7 +113,7 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
               size="sm"
               onClick={() => addSkill(skills, setSkills, skill.name, skill.category)}
               disabled={skills.some(s => s.name === skill.name)}
-              className="justify-start text-xs sm:text-sm"
+              className="justify-start text-xs sm:text-sm "
             >
               <Plus className="w-3 h-3 mr-1" />
               {skill.name}
@@ -129,18 +130,18 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
             placeholder="Enter skill name"
             value={customSkill}
             onChange={(e) => setCustomSkill(e.target.value)}
-            className="flex-1"
+            className="flex-1 bg-neutral-200"
           />
           <Select value={newSkill.level} onValueChange={(value: 'beginner' | 'intermediate' | 'expert') => 
             setNewSkill(prev => ({ ...prev, level: value }))
           }>
-            <SelectTrigger className="w-full sm:w-32">
+            <SelectTrigger className="w-full sm:w-32 bg-neutral-200">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="beginner">Beginner</SelectItem>
-              <SelectItem value="intermediate">Intermediate</SelectItem>
-              <SelectItem value="expert">Expert</SelectItem>
+            <SelectContent className="bg-white">
+              <SelectItem value="beginner" className="hover:bg-neutral-100 hover:text-black">Beginner</SelectItem>
+              <SelectItem value="intermediate" className="hover:bg-neutral-100 hover:text-black">Intermediate</SelectItem>
+              <SelectItem value="expert" className="hover:bg-neutral-100 hover:text-black">Expert</SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -151,7 +152,7 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
               }
             }}
             disabled={!customSkill.trim()}
-            className="w-full sm:w-auto"
+            className={`w-full sm:w-auto text-white ${customSkill.trim() ? 'bg-black' : 'bg-zinc-800'}`}
           >
             Add
           </Button>
@@ -162,16 +163,16 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl">
+      <Card className="w-full max-w-4xl bg-white">
         <CardHeader className="text-center px-4 sm:px-6">
           <CardTitle className="text-lg sm:text-xl">Choose Your Skills</CardTitle>
           <CardDescription className="text-sm">Tell us what you can teach and what you'd like to learn</CardDescription>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6">
-          <Tabs defaultValue="teach" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="teach" className="text-sm">Skills I Can Teach</TabsTrigger>
-              <TabsTrigger value="learn" className="text-sm">Skills I Want to Learn</TabsTrigger>
+        <CardContent className="px-4 sm:px-6 ">
+          <Tabs defaultValue="teach" className="w-full ">
+            <TabsList className="grid w-full grid-cols-2 bg-neutral-200 rounded-full">
+              <TabsTrigger value="teach" className="text-sm h-7 rounded-full data-[state=active]:bg-white data-[state=active]:text-black">Skills I Can Teach</TabsTrigger>
+              <TabsTrigger value="learn" className="text-sm h-7 rounded-full data-[state=active]:bg-white data-[state=active]:text-black">Skills I Want to Learn</TabsTrigger>
             </TabsList>
             
             <TabsContent value="teach" className="space-y-4 mt-4">
@@ -196,10 +197,10 @@ export function SkillsSelection({ userData, onComplete }: SkillsSelectionProps) 
           </Tabs>
 
           <div className="flex flex-col sm:flex-row justify-between gap-3 pt-6">
-            <Button variant="outline" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto" onClick={() => onNavigate('profile')}>
               Back
             </Button>
-            <Button onClick={handleComplete} className="w-full sm:w-auto">
+            <Button onClick={handleComplete} className="w-full sm:w-auto bg-black text-white">
               Complete Setup
             </Button>
           </div>

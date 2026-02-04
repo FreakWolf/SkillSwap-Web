@@ -94,6 +94,7 @@ export default function App() {
           <ProfileSetup
             userData={userData}
             onComplete={handleProfileComplete}
+            onSkip={() => setCurrentScreen("dashboard")}
           />
         );
       case "skills":
@@ -101,6 +102,7 @@ export default function App() {
           <SkillsSelection
             userData={userData}
             onComplete={handleSkillsComplete}
+            onNavigate={handleNavigate}
           />
         );
       case "dashboard":

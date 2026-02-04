@@ -6,13 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { toast } from "sonner";
 import { authService } from "../services/auth";
+import { Eye, EyeOff } from "lucide-react";
 
 interface AuthScreenProps {
   onComplete: (userData: any) => void;
 }
 
 export function AuthScreen({ onComplete }: AuthScreenProps) {
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -21,6 +27,8 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
     birthdate: "",
     agreeToTerms: false,
   });
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showRegisterConfirmPassword, setShowRegisterConfirmPassword] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -116,18 +124,28 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="login-password">Password</Label>
-                <Input
-                  className="bg-neutral-200"
-                  id="login-password"
-                  type="password"
-                  value={loginData.password}
-                  onChange={(e) =>
-                    setLoginData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                />
+                <div className="relative">
+                  <Input
+                    className="bg-neutral-200 pr-10"
+                    id="login-password"
+                    type={showLoginPassword ? "text" : "password"}
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowLoginPassword(!showLoginPassword)}
+                    aria-label={showLoginPassword ? "Hide password" : "Show password"}
+                  >
+                    {showLoginPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
               <Button
                 onClick={handleLogin}
@@ -224,33 +242,53 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="register-password">Password</Label>
-                <Input
-                  className="bg-neutral-200"
-                  id="register-password"
-                  type="password"
-                  value={registerData.password}
-                  onChange={(e) =>
-                    setRegisterData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                />
+                <div className="relative">
+                  <Input
+                    className="bg-neutral-200 pr-10"
+                    id="register-password"
+                    type={showRegisterPassword ? "text" : "password"}
+                    value={registerData.password}
+                    onChange={(e) =>
+                      setRegisterData((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                    aria-label={showRegisterPassword ? "Hide password" : "Show password"}
+                  >
+                    {showRegisterPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="register-confirm">Confirm Password</Label>
-                <Input
-                  className="bg-neutral-200"
-                  id="register-confirm"
-                  type="password"
-                  value={registerData.confirmPassword}
-                  onChange={(e) =>
-                    setRegisterData((prev) => ({
-                      ...prev,
-                      confirmPassword: e.target.value,
-                    }))
-                  }
-                />
+                <div className="relative">
+                  <Input
+                    className="bg-neutral-200 pr-10"
+                    id="register-confirm"
+                    type={showRegisterConfirmPassword ? "text" : "password"}
+                    value={registerData.confirmPassword}
+                    onChange={(e) =>
+                      setRegisterData((prev) => ({
+                        ...prev,
+                        confirmPassword: e.target.value,
+                      }))
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowRegisterConfirmPassword(!showRegisterConfirmPassword)}
+                    aria-label={showRegisterConfirmPassword ? "Hide password" : "Show password"}
+                  >
+                    {showRegisterConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
               <div className="flex items-start space-x-2">
                 <input

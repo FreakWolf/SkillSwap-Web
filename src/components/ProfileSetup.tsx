@@ -6,6 +6,8 @@ import { Textarea } from './ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 
 import { Upload, MapPin } from 'lucide-react';
+import { toast } from 'sonner';
+import { storageService } from '../services/storage';
 
 interface ProfileSetupProps {
   userData: any;
@@ -20,6 +22,7 @@ export function ProfileSetup({ userData, onComplete, onSkip }: ProfileSetupProps
     location: '',
     languages: [] as string[]
   });
+  const [isUploading, setIsUploading] = useState(false);
 
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
 
@@ -56,13 +59,89 @@ export function ProfileSetup({ userData, onComplete, onSkip }: ProfileSetupProps
         <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
           {/* Profile Picture */}
           <div className="flex flex-col items-center justify-center space-y-4 py-4">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-neutral-200 flex items-center justify-center text-black text-xl sm:text-2xl font-medium shadow-sm">
-              {userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-neutral-200 flex items-center justify-center text-black text-xl sm:text-2xl font-medium shadow-sm">
+              {profileData.profilePicture ? (
+                <img 
+                  src={profileData.profilePicture} 
+                  alt="Profile" 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <>{userData.name?.split(' ').map((n: string) => n[0]).join('') || 'U'}</>
+              )}
             </div>
-            <Button variant="outline" size="sm" className="text-sm">
-              <Upload className="w-4 h-4 mr-2" />
-              Upload Photo
-            </Button>
+            <div className="flex flex-col items-center space-y-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-sm"
+                onClick={() => document.getElementById('profile-picture-input')?.click()}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                {isUploading ? 'Uploading...' : 'Upload Photo'}
+              </Button>
+              <input
+                id="profile-picture-input"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  
+                  setIsUploading(true);
+                  
+                  try {
+                    // Use storage service to upload the image
+                    const publicUrl = await storageService.uploadProfilePicture(userData.id, file);
+                    
+                    // Update profile data with the public URL
+                    setProfileData(prev => ({
+                      ...prev,
+                      profilePicture: publicUrl
+                    }));
+                    
+                    toast.success('Profile picture uploaded successfully!');
+                  } catch (error) {
+                    console.error('Error uploading profile picture:', error);
+                    toast.error((error as Error).message || 'Failed to upload profile picture. Please try again.');
+                  } finally {
+                    setIsUploading(false);
+                  }
+                }}
+              />
+              {profileData.profilePicture && (
+                <Button
+                  variant="link"
+                  size="sm"
+                  className="text-xs text-red-500 p-0 bg-red-500 text-white"
+                  onClick={async () => {
+                    try {
+                      // Delete from storage first
+                      await storageService.deleteProfilePicture(profileData.profilePicture);
+                      
+                      // Then update state
+                      setProfileData(prev => ({
+                        ...prev,
+                        profilePicture: ''
+                      }));
+                      
+                      toast.success('Profile picture removed successfully!');
+                    } catch (error) {
+                      console.error('Error removing profile picture:', error);
+                      // Even if storage deletion fails, still update the state
+                      setProfileData(prev => ({
+                        ...prev,
+                        profilePicture: ''
+                      }));
+                      toast.error('Failed to remove profile picture from storage, but it has been removed from your profile.');
+                    }
+                  }}
+                >
+                  Remove Photo
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Bio */}

@@ -24,7 +24,10 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
 
   const handleLogin = async () => {
     try {
-      const user = await authService.signIn(loginData.email, loginData.password);
+      const user = await authService.signIn(
+        loginData.email,
+        loginData.password,
+      );
       toast.success("Successfully logged in!");
       // Delay redirection to show the success message
       setTimeout(() => {
@@ -46,7 +49,11 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
     }
 
     try {
-      const user = await authService.signUp(registerData.email, registerData.password, registerData.name);
+      const user = await authService.signUp(
+        registerData.email,
+        registerData.password,
+        registerData.name,
+      );
       toast.success("Successfully signed up!");
       // Delay redirection to show the success message
       setTimeout(() => {
@@ -129,44 +136,44 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
                 Login
               </Button>
               <div className="text-center space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Or continue with
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm hover:bg-neutral-200"
-                  onClick={async () => {
-                    try {
-                      // Clear any existing session first to ensure we get the Google prompt
-                      await authService.signOut();
-                      await authService.signInWithGoogle();
-                    } catch (error) {
-                      alert((error as Error).message);
-                    }
-                  }}
-                >
-                  Google
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm hover:bg-neutral-200"
-                  onClick={async () => {
-                    try {
-                      // Clear any existing session first to ensure we get the GitHub prompt
-                      await authService.signOut();
-                      await authService.signInWithGitHub();
-                    } catch (error) {
-                      alert((error as Error).message);
-                    }
-                  }}
-                >
-                  GitHub
-                </Button>
+                <p className="text-sm text-muted-foreground">
+                  Or continue with
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs sm:text-sm hover:bg-neutral-200"
+                    onClick={async () => {
+                      try {
+                        // Clear any existing session first to ensure we get the Google prompt
+                        await authService.signOut();
+                        await authService.signInWithGoogle();
+                      } catch (error) {
+                        alert((error as Error).message);
+                      }
+                    }}
+                  >
+                    Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs sm:text-sm hover:bg-neutral-200"
+                    onClick={async () => {
+                      try {
+                        // Clear any existing session first to ensure we get the GitHub prompt
+                        await authService.signOut();
+                        await authService.signInWithGitHub();
+                      } catch (error) {
+                        alert((error as Error).message);
+                      }
+                    }}
+                  >
+                    GitHub
+                  </Button>
+                </div>
               </div>
-            </div>
             </TabsContent>
 
             <TabsContent value="register" className="space-y-4">
@@ -269,51 +276,44 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
                 Create Account
               </Button>
               <div className="text-center space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Or continue with
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm"
-                  onClick={async () => {
-                    try {
-                      // Clear any existing session first to ensure we get the Google prompt
-                      await authService.signOut();
-                      await authService.signInWithGoogle();
-                    } catch (error) {
-                      alert((error as Error).message);
-                    }
-                  }}
-                >
-                  Google
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm"
-                  onClick={async () => {
-                    try {
-                      // Clear any existing session first to ensure we get the GitHub prompt
-                      await authService.signOut();
-                      await authService.signInWithGitHub();
-                    } catch (error) {
-                      alert((error as Error).message);
-                    }
-                  }}
-                >
-                  GitHub
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm"
-                >
-                  Facebook
-                </Button>
+                <p className="text-sm text-muted-foreground">
+                  Or continue with
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs sm:text-sm hover:bg-neutral-200"
+                    onClick={async () => {
+                      try {
+                        // Clear any existing session first to ensure we get the Google prompt
+                        await authService.signOut();
+                        await authService.signInWithGoogle();
+                      } catch (error) {
+                        alert((error as Error).message);
+                      }
+                    }}
+                  >
+                    Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs sm:text-sm hover:bg-neutral-200"
+                    onClick={async () => {
+                      try {
+                        // Clear any existing session first to ensure we get the GitHub prompt
+                        await authService.signOut();
+                        await authService.signInWithGitHub();
+                      } catch (error) {
+                        alert((error as Error).message);
+                      }
+                    }}
+                  >
+                    GitHub
+                  </Button>
+                </div>
               </div>
-            </div>
             </TabsContent>
           </Tabs>
         </CardContent>

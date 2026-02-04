@@ -55,6 +55,32 @@ export const authService = {
     };
   },
 
+  async signInWithGoogle(): Promise<void> {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  async signInWithGitHub(): Promise<void> {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  },
+
   async signOut(): Promise<void> {
     const { error } = await supabase.auth.signOut();
     if (error) {

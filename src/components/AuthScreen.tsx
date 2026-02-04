@@ -129,26 +129,44 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
                 Login
               </Button>
               <div className="text-center space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Or continue with
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs sm:text-sm"
-                  >
-                    Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-xs sm:text-sm"
-                  >
-                    Facebook
-                  </Button>
-                </div>
+              <p className="text-sm text-muted-foreground">
+                Or continue with
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs sm:text-sm hover:bg-neutral-200"
+                  onClick={async () => {
+                    try {
+                      // Clear any existing session first to ensure we get the Google prompt
+                      await authService.signOut();
+                      await authService.signInWithGoogle();
+                    } catch (error) {
+                      alert((error as Error).message);
+                    }
+                  }}
+                >
+                  Google
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs sm:text-sm hover:bg-neutral-200"
+                  onClick={async () => {
+                    try {
+                      // Clear any existing session first to ensure we get the GitHub prompt
+                      await authService.signOut();
+                      await authService.signInWithGitHub();
+                    } catch (error) {
+                      alert((error as Error).message);
+                    }
+                  }}
+                >
+                  GitHub
+                </Button>
               </div>
+            </div>
             </TabsContent>
 
             <TabsContent value="register" className="space-y-4">
@@ -250,6 +268,52 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
               >
                 Create Account
               </Button>
+              <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Or continue with
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs sm:text-sm"
+                  onClick={async () => {
+                    try {
+                      // Clear any existing session first to ensure we get the Google prompt
+                      await authService.signOut();
+                      await authService.signInWithGoogle();
+                    } catch (error) {
+                      alert((error as Error).message);
+                    }
+                  }}
+                >
+                  Google
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs sm:text-sm"
+                  onClick={async () => {
+                    try {
+                      // Clear any existing session first to ensure we get the GitHub prompt
+                      await authService.signOut();
+                      await authService.signInWithGitHub();
+                    } catch (error) {
+                      alert((error as Error).message);
+                    }
+                  }}
+                >
+                  GitHub
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-xs sm:text-sm"
+                >
+                  Facebook
+                </Button>
+              </div>
+            </div>
             </TabsContent>
           </Tabs>
         </CardContent>

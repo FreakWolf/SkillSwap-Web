@@ -4,6 +4,8 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { toast } from "sonner";
+import { authService } from "../services/auth";
 
 interface AuthScreenProps {
   onComplete: (userData: any) => void;
@@ -20,17 +22,20 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
     agreeToTerms: false,
   });
 
-  const handleLogin = () => {
-    // Mock login - in real app would validate credentials
-    onComplete({
-      id: "1",
-      email: loginData.email,
-      name: "User",
-      isNewUser: false,
-    });
+  const handleLogin = async () => {
+    try {
+      const user = await authService.signIn(loginData.email, loginData.password);
+      toast.success("Successfully logged in!");
+      // Delay redirection to show the success message
+      setTimeout(() => {
+        onComplete(user);
+      }, 1500);
+    } catch (error) {
+      alert((error as Error).message);
+    }
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (registerData.password !== registerData.confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -40,13 +45,19 @@ export function AuthScreen({ onComplete }: AuthScreenProps) {
       return;
     }
 
-    onComplete({
-      id: Date.now().toString(),
-      email: registerData.email,
-      name: registerData.name,
-      birthdate: registerData.birthdate,
-      isNewUser: true,
-    });
+    try {
+      const user = await authService.signUp(registerData.email, registerData.password, registerData.name);
+      toast.success("Successfully signed up!");
+      // Delay redirection to show the success message
+      setTimeout(() => {
+        onComplete({
+          ...user,
+          birthdate: registerData.birthdate,
+        });
+      }, 1500);
+    } catch (error) {
+      alert((error as Error).message);
+    }
   };
 
   return (

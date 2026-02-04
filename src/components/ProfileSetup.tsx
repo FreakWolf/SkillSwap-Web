@@ -10,9 +10,10 @@ import { Upload, MapPin } from 'lucide-react';
 interface ProfileSetupProps {
   userData: any;
   onComplete: (profileData: any) => void;
+  onSkip: () => void;
 }
 
-export function ProfileSetup({ userData, onComplete }: ProfileSetupProps) {
+export function ProfileSetup({ userData, onComplete, onSkip }: ProfileSetupProps) {
   const [profileData, setProfileData] = useState({
     profilePicture: '',
     bio: '',
@@ -114,7 +115,7 @@ export function ProfileSetup({ userData, onComplete }: ProfileSetupProps) {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-between gap-3 pt-4">
-            <Button variant="outline" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto" onClick={onSkip}>
               Skip for Now
             </Button>
             <Button onClick={handleComplete} className="w-full sm:w-auto bg-black text-white">

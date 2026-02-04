@@ -66,7 +66,9 @@ export default function App() {
             isNewUser: false,
           };
             
-            toast.success("Successfully signed in with Google!");
+            // Determine the provider from user metadata
+            const provider = data.session.user.app_metadata.provider || 'Google';
+            toast.success(`Successfully signed in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}!`);
             setUserData(user);
             setCurrentScreen(user.isNewUser ? "profile" : "dashboard");
           }

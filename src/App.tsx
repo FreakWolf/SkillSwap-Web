@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthScreen } from "./components/AuthScreen";
 import { ProfileSetup } from "./components/ProfileSetup";
 import { SkillsSelection } from "./components/SkillsSelection";
@@ -19,6 +19,8 @@ import { OfferSkill } from "./components/OfferSkill";
 import { UserProfile } from "./components/UserProfile";
 import { Settings } from "./components/Settings";
 import { AppLayout } from "./components/AppLayout";
+import { supabase } from "./utils/supabase";
+import { toast } from "sonner";
 
 type Screen =
   | "auth"
@@ -43,11 +45,42 @@ type Screen =
   | "settings";
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] =
-    useState<Screen>("auth");
+  const [currentScreen, setCurrentScreen] = useState<Screen>("auth");
   const [userData, setUserData] = useState<any>(null);
-  const [navigationData, setNavigationData] =
-    useState<any>(null);
+  const [navigationData, setNavigationData] = useState<any>(null);
+
+  // Handle OAuth callback on page load
+  useEffect(() => {
+    const handleOAuthCallback = async () => {
+      const hash = window.location.hash;
+      if (hash.includes("access_token")) {
+        try {
+          const { data, error } = await supabase.auth.getSession();
+          if (error) throw error;
+          
+          if (data.session) {
+            const user = {
+            id: data.session.user.id,
+            email: data.session.user.email || '',
+            name: data.session.user.user_metadata?.name || '',
+            isNewUser: false,
+          };
+            
+            // Determine the provider from user metadata
+            const provider = data.session.user.app_metadata.provider || 'Google';
+            toast.success(`Successfully signed in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}!`);
+            setUserData(user);
+            setCurrentScreen(user.isNewUser ? "profile" : "dashboard");
+          }
+        } catch (error) {
+          console.error("OAuth callback error:", error);
+          toast.error("Google sign in failed");
+        }
+      }
+    };
+
+    handleOAuthCallback();
+  }, []);
 
   const handleAuthComplete = (user: any) => {
     setUserData(user);

@@ -22,7 +22,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
       level: 'Expert',
       rating: 4.9,
       location: 'San Francisco, CA',
-      avatar: '',
+      avatar: 'https://i.pravatar.cc/150?img=1',
       price: 25,
       availability: 'Available now'
     },
@@ -33,7 +33,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
       level: 'Native',
       rating: 4.8,
       location: 'Barcelona, Spain',
-      avatar: '',
+      avatar: 'https://i.pravatar.cc/150?img=2',
       price: 20,
       availability: 'Available today'
     },
@@ -44,7 +44,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
       level: 'Expert',
       rating: 5.0,
       location: 'London, UK',
-      avatar: '',
+      avatar: 'https://i.pravatar.cc/150?img=3',
       price: 35,
       availability: 'Tomorrow'
     }
@@ -204,6 +204,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
                     <div key={match.id} className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-all hover:border-blue-300 cursor-pointer" onClick={() => onNavigate('publicProfile')}>
                       <div className="flex items-center gap-4 flex-1">
                         <Avatar className="w-14 h-14">
+                          <AvatarImage src={match.avatar} alt={match.name} />
                           <AvatarFallback className="text-lg bg-gradient-to-br from-blue-500 to-purple-500 text-white">
                             {match.name.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
@@ -217,7 +218,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
                             </div>
                           </div>
                           <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="secondary">
+                            <Badge variant="secondary" className='bg-gray-200 rounded-full px-2'>
                               {match.skill} • {match.level}
                             </Badge>
                             <span className="text-sm text-gray-500">{match.location}</span>
@@ -228,7 +229,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
                           </div>
                         </div>
                       </div>
-                      <Button onClick={(e) => { e.stopPropagation(); onNavigate('booking'); }}>
+                      <Button className='bg-black text-white' onClick={(e) => { e.stopPropagation(); onNavigate('booking'); }}>
                         Book Session
                       </Button>
                     </div>
@@ -252,7 +253,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
                 {upcomingSessions.map((session) => (
                   <div key={session.id} className="border-l-4 border-blue-500 pl-4 py-3 bg-blue-50/50 rounded-r">
                     <div className="flex items-center justify-between mb-2">
-                      <Badge variant={session.type === 'learning' ? 'default' : 'secondary'}>
+                      <Badge className='bg-black text-white' variant={session.type === 'learning' ? 'default' : 'secondary'}>
                         {session.type === 'learning' ? 'Learning' : 'Teaching'}
                       </Badge>
                       <div className="flex items-center text-sm text-gray-600">
@@ -267,7 +268,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
                     <p className="text-sm text-gray-900 mt-1 font-medium">
                       {session.date} at {session.time}
                     </p>
-                    <Button size="sm" className="w-full mt-3" onClick={() => onNavigate('videoCall')}>
+                    <Button size="sm" className="w-full mt-3 bg-black text-white" onClick={() => onNavigate('videoCall')}>
                       Join Session
                     </Button>
                   </div>

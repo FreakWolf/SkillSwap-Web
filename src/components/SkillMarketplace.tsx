@@ -22,6 +22,15 @@ export function SkillMarketplace({ userData, onNavigate }: SkillMarketplaceProps
   const [sortBy, setSortBy] = useState('rating');
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [minRating, setMinRating] = useState(0);
+  const [availableNow, setAvailableNow] = useState(false);
+  const [availableToday, setAvailableToday] = useState(false);
+  const [availableWeek, setAvailableWeek] = useState(false);
+
+  const [availabilityFilters, setAvailabilityFilters] = useState({
+    availableNow: false,
+    availableToday: false,
+    availableWeek: false,
+  });
 
   const skillCategories = [
     { id: 'all', name: 'All Categories', icon: '📚' },
@@ -167,7 +176,12 @@ export function SkillMarketplace({ userData, onNavigate }: SkillMarketplaceProps
     const matchesCategory = selectedCategory === 'all' || skill.category === selectedCategory;
     const matchesPrice = skill.price >= priceRange[0] && skill.price <= priceRange[1];
     const matchesRating = skill.rating >= minRating;
-    return matchesSearch && matchesCategory && matchesPrice && matchesRating;
+    const matchesAvailability =
+      (!availabilityFilters.availableNow && !availabilityFilters.availableToday && !availabilityFilters.availableWeek) ||
+      (availabilityFilters.availableNow && skill.availability === 'Available now') ||
+      (availabilityFilters.availableToday && skill.availability === 'Available today') ||
+      (availabilityFilters.availableWeek && skill.availability === 'This week');
+    return matchesSearch && matchesCategory && matchesPrice && matchesRating && matchesAvailability;
   });
 
   const sortedSkills = [...filteredSkills].sort((a, b) => {
@@ -202,18 +216,18 @@ export function SkillMarketplace({ userData, onNavigate }: SkillMarketplaceProps
                 placeholder="Search skills or teachers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-11"
+                className="pl-10 h-11 bg-neutral-200"
               />
             </div>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-44 h-11">
+              <SelectTrigger className="w-44 h-11 bg-neutral-200">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-                <SelectItem value="students">Most Popular</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
+              <SelectContent className='bg-white'>
+                <SelectItem className='hover:bg-neutral-200' value="rating">Highest Rated</SelectItem>
+                <SelectItem className='hover:bg-neutral-200' value="students">Most Popular</SelectItem>
+                <SelectItem className='hover:bg-neutral-200' value="price-low">Price: Low to High</SelectItem>
+                <SelectItem className='hover:bg-neutral-200' value="price-high">Price: High to Low</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -298,19 +312,52 @@ export function SkillMarketplace({ userData, onNavigate }: SkillMarketplaceProps
               <h3 className="font-semibold text-sm mb-3 text-gray-900">Availability</h3>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="available-now" />
+                  <input
+                    type="checkbox"
+                    id="available-now"
+                    checked={availabilityFilters.availableNow}
+                    onChange={(e) =>
+                      setAvailabilityFilters((prev) => ({
+                        ...prev,
+                        availableNow: e.target.checked,
+                      }))
+                    }
+                    className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
                   <Label htmlFor="available-now" className="text-sm font-normal cursor-pointer">
                     Available now
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="available-today" />
+                  <input
+                    type="checkbox"
+                    id="available-today"
+                    checked={availabilityFilters.availableToday}
+                    onChange={(e) =>
+                      setAvailabilityFilters((prev) => ({
+                        ...prev,
+                        availableToday: e.target.checked,
+                      }))
+                    }
+                    className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
                   <Label htmlFor="available-today" className="text-sm font-normal cursor-pointer">
                     Available today
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="available-week" />
+                  <input
+                    type="checkbox"
+                    id="available-week"
+                    checked={availabilityFilters.availableWeek}
+                    onChange={(e) =>
+                      setAvailabilityFilters((prev) => ({
+                        ...prev,
+                        availableWeek: e.target.checked,
+                      }))
+                    }
+                    className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
                   <Label htmlFor="available-week" className="text-sm font-normal cursor-pointer">
                     This week
                   </Label>

@@ -69,6 +69,30 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
     }
   };
 
+  const getDayOfWeekNumber = (dayName: string) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days.indexOf(dayName);
+  };
+
+  const today = new Date();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
+  const availableDates = profileData.availability.slots.flatMap(slot => {
+    const dayOfWeekNumber = getDayOfWeekNumber(slot.day);
+    if (dayOfWeekNumber === -1) return []; // Invalid day name
+
+    const dates: Date[] = [];
+    // Iterate through the days of the current month
+    for (let i = 1; i <= new Date(currentYear, currentMonth + 1, 0).getDate(); i++) {
+      const date = new Date(currentYear, currentMonth, i);
+      if (date.getDay() === dayOfWeekNumber) {
+        dates.push(date);
+      }
+    }
+    return dates;
+  });
+
   const reviews = [
     {
       id: 1,
@@ -76,7 +100,8 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
       rating: 5,
       date: '2024-03-10',
       skill: 'JavaScript',
-      comment: 'Sarah is an amazing teacher! She explains complex concepts in a very clear way and provides practical examples.'
+      comment: 'Sarah is an amazing teacher! She explains complex concepts in a very clear way and provides practical examples.',
+      profilePicture: 'https://i.pravatar.cc/150?img=1'
     },
     {
       id: 2,
@@ -84,7 +109,8 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
       rating: 5,
       date: '2024-03-08',
       skill: 'React',
-      comment: 'Excellent session on React hooks. Very patient and knowledgeable. Highly recommended!'
+      comment: 'Excellent session on React hooks. Very patient and knowledgeable. Highly recommended!',
+      profilePicture: 'https://i.pravatar.cc/150?img=2'
     },
     {
       id: 3,
@@ -92,7 +118,8 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
       rating: 4,
       date: '2024-03-05',
       skill: 'Node.js',
-      comment: 'Great introduction to backend development. Clear explanations and good pace.'
+      comment: 'Great introduction to backend development. Clear explanations and good pace.',
+      profilePicture: 'https://i.pravatar.cc/150?img=3'
     }
   ];
 
@@ -132,12 +159,16 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
           <div className="lg:col-span-2 space-y-6">
             {/* Profile Header */}
             <Card>
-              <CardContent className="p-6">
+              <CardContent className="p-6 bg-white shadow-md rounded-lg">
                 <div className="flex items-start space-x-6">
                   <Avatar className="w-24 h-24">
-                    <AvatarFallback className="text-2xl">
-                      {profileData.name.split(' ').map((n: string) => n[0]).join('')}
-                    </AvatarFallback>
+                    {profileData.avatar ? (
+                      <AvatarImage src={profileData.avatar} alt={profileData.name} />
+                    ) : (
+                      <AvatarFallback className="text-2xl w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white flex items-center justify-center">
+                        {profileData.name.split(' ').map((n: string) => n[0]).join('')}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
@@ -147,11 +178,11 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                       )}
                     </div>
                     <div className="flex items-center space-x-4 text-muted-foreground mb-3">
-                      <div className="flex items-center">
+                      <div className="flex items-center text-neutral-500">
                         <MapPin className="w-4 h-4 mr-1" />
                         {profileData.location}
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center text-neutral-500">
                         <CalendarIcon className="w-4 h-4 mr-1" />
                         Member since {profileData.memberSince}
                       </div>
@@ -160,22 +191,22 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                       <div className="flex items-center">
                         <Star className="w-4 h-4 mr-1 fill-current text-yellow-500" />
                         <span>{profileData.rating}</span>
-                        <span className="text-muted-foreground ml-1">
+                        <span className="text-muted-foreground ml-1 text-neutral-500">
                           ({profileData.totalReviews} reviews)
                         </span>
                       </div>
-                      <div className="text-muted-foreground">
+                      <div className="text-muted-foreground text-neutral-500">
                         {profileData.totalStudents} students taught
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2 mb-4 bg-">
                       {profileData.achievements.map((achievement) => (
-                        <Badge key={achievement} variant="secondary">
+                        <Badge className='bg-neutral-200' key={achievement} variant="secondary">
                           {achievement}
                         </Badge>
                       ))}
                     </div>
-                    <p className="text-muted-foreground">{profileData.bio}</p>
+                    <p className="text-muted-foreground text-neutral-500">{profileData.bio}</p>
                   </div>
                 </div>
               </CardContent>
@@ -183,15 +214,15 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
 
             {/* Skills & Reviews Tabs */}
             <Tabs defaultValue="skills" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="skills">Skills</TabsTrigger>
-                <TabsTrigger value="reviews">Reviews</TabsTrigger>
-                <TabsTrigger value="history">Teaching History</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3 bg-neutral-200 rounded-full">
+                <TabsTrigger value="skills" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Skills</TabsTrigger>
+                <TabsTrigger value="reviews" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Reviews</TabsTrigger>
+                <TabsTrigger value="history" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Teaching History</TabsTrigger>
               </TabsList>
               
               <TabsContent value="skills" className="space-y-6">
                 {/* Teaching Skills */}
-                <Card>
+                <Card className='bg-white shadow-md'>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <GraduationCap className="w-5 h-5 mr-2" />
@@ -215,7 +246,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                           </div>
                           <Button 
                             size="sm" 
-                            className="w-full mt-3"
+                            className="w-full mt-3 rounded-30 bg-black text-white"
                             onClick={() => onNavigate('booking', { skill: skill.name, teacher: profileData.name })}
                           >
                             Book Session
@@ -227,7 +258,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                 </Card>
 
                 {/* Learning Skills */}
-                <Card>
+                <Card className='bg-white shadow-md'>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <BookOpen className="w-5 h-5 mr-2" />
@@ -237,7 +268,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
                       {profileData.learningSkills.map((skill) => (
-                        <Badge key={skill.name} variant="secondary">
+                        <Badge className='bg-neutral-200' key={skill.name} variant="secondary">
                           {skill.name} ({skill.level})
                         </Badge>
                       ))}
@@ -253,9 +284,13 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center space-x-2">
                           <Avatar className="w-8 h-8">
-                            <AvatarFallback className="text-xs">
-                              {review.student.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
+                            {review.profilePicture ? (
+                              <AvatarImage src={review.profilePicture} alt={review.student} />
+                            ) : (
+                              <AvatarFallback className="text-xs w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white flex items-center justify-center">
+                                {review.student.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            )}
                           </Avatar>
                           <div>
                             <p className="text-sm">{review.student}</p>
@@ -300,9 +335,9 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <Card>
-              <CardContent className="p-4 space-y-3">
-                <Button className="w-full" onClick={() => onNavigate('booking', { teacher: profileData.name })}>
+            <Card className='bg-white shadow-md'>
+              <CardContent className="p-4 space-y-3 ">
+                <Button className="w-full bg-black text-white" onClick={() => onNavigate('booking', { teacher: profileData.name })}>
                   <CalendarIcon className="w-4 h-4 mr-2" />
                   Book a Session
                 </Button>
@@ -314,38 +349,40 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
             </Card>
 
             {/* Quick Stats */}
-            <Card>
+            <Card className='bg-white shadow-md'>
               <CardHeader>
                 <CardTitle>Quick Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Response time</span>
+                  <span className="text-muted-foreground text-neutral-500">Response time</span>
                   <span>{profileData.responseTime}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Languages</span>
+                  <span className="text-muted-foreground text-neutral-500">Languages</span>
                   <span>{profileData.languages.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Skills taught</span>
+                  <span className="text-muted-foreground text-neutral-500">Skills taught</span>
                   <span>{profileData.teachingSkills.length}</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Availability */}
-            <Card>
+            <Card className='bg-white shadow-md'>
               <CardHeader>
                 <CardTitle>Availability</CardTitle>
-                <CardDescription>Times shown in {profileData.availability.timezone}</CardDescription>
+                <CardDescription className='text-neutral-500'>Times shown in {profileData.availability.timezone}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Calendar
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
-                  className="rounded-md border"
+                  className="rounded-lg border"
+                  modifiers={{ available: availableDates }}
+                  modifiersClassNames={{ available: "bg-green-200 text-green-800 rounded-full flex items-center justify-center" }}
                 />
                 <div className="mt-4 space-y-2">
                   {profileData.availability.slots.map((slot) => (

@@ -1,11 +1,23 @@
 import { useState } from "react";
-import { Upload, Clock, Coins, Users, BookOpen, Plus, X, Check } from "lucide-react";
+import { Clock, Coins, Users, Plus, X, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { Label } from "./ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
@@ -34,17 +46,31 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
   const [objectives, setObjectives] = useState<string[]>([""]);
 
   const categories = [
-    "Programming", "Design", "Business", "Marketing", "Music", 
-    "Languages", "Photography", "Writing", "Fitness", "Cooking"
+    "Programming",
+    "Design",
+    "Business",
+    "Marketing",
+    "Music",
+    "Languages",
+    "Photography",
+    "Writing",
+    "Fitness",
+    "Cooking",
   ];
 
-  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const handleDayToggle = (day: string) => {
-    setSelectedDays(prev => 
-      prev.includes(day) 
-        ? prev.filter(d => d !== day)
-        : [...prev, day]
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
     );
   };
 
@@ -56,7 +82,7 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
   };
 
   const removeTimeSlot = (slot: string) => {
-    setTimeSlots(timeSlots.filter(s => s !== slot));
+    setTimeSlots(timeSlots.filter((s) => s !== slot));
   };
 
   const addObjective = () => {
@@ -74,7 +100,12 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
   };
 
   const handleSubmit = () => {
-    console.log("Submitting skill offer:", { ...formData, selectedDays, timeSlots, objectives });
+    console.log("Submitting skill offer:", {
+      ...formData,
+      selectedDays,
+      timeSlots,
+      objectives,
+    });
     onNavigate("dashboard");
   };
 
@@ -84,8 +115,12 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
       <div className="bg-white border-b border-gray-200 px-8 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Offer a Skill</h1>
-            <p className="text-sm text-gray-500 mt-1">Share your expertise and teach others</p>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Offer a Skill
+            </h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Share your expertise and teach others
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={() => onNavigate("dashboard")}>
@@ -114,14 +149,21 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                   id="title"
                   placeholder="e.g., Master JavaScript in 30 Days"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category">Category *</Label>
-                  <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                  <Select
+                    value={formData.category}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, category: value })
+                    }
+                  >
                     <SelectTrigger id="category">
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
@@ -137,7 +179,12 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
 
                 <div className="space-y-2">
                   <Label htmlFor="difficulty">Difficulty Level *</Label>
-                  <Select value={formData.difficulty} onValueChange={(value) => setFormData({ ...formData, difficulty: value })}>
+                  <Select
+                    value={formData.difficulty}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, difficulty: value })
+                    }
+                  >
                     <SelectTrigger id="difficulty">
                       <SelectValue placeholder="Select difficulty" />
                     </SelectTrigger>
@@ -157,7 +204,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                   id="description"
                   placeholder="Describe what students will learn and what makes your teaching unique..."
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={4}
                 />
               </div>
@@ -168,7 +217,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                   id="requirements"
                   placeholder="What should students know or have before taking your class?"
                   value={formData.requirements}
-                  onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, requirements: e.target.value })
+                  }
                   rows={3}
                 />
               </div>
@@ -179,7 +230,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
           <Card>
             <CardHeader>
               <CardTitle>Learning Objectives</CardTitle>
-              <CardDescription>What will students be able to do after your session?</CardDescription>
+              <CardDescription>
+                What will students be able to do after your session?
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {objectives.map((objective, index) => (
@@ -200,7 +253,11 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                   )}
                 </div>
               ))}
-              <Button variant="outline" onClick={addObjective} className="w-full">
+              <Button
+                variant="outline"
+                onClick={addObjective}
+                className="w-full"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Objective
               </Button>
@@ -211,7 +268,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
           <Card>
             <CardHeader>
               <CardTitle>Session Details</CardTitle>
-              <CardDescription>Configure your teaching sessions</CardDescription>
+              <CardDescription>
+                Configure your teaching sessions
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-3 gap-4">
@@ -227,7 +286,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                     type="number"
                     placeholder="25"
                     value={formData.hourlyRate}
-                    onChange={(e) => setFormData({ ...formData, hourlyRate: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, hourlyRate: e.target.value })
+                    }
                   />
                 </div>
 
@@ -238,7 +299,12 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                       Default Session Length
                     </div>
                   </Label>
-                  <Select value={formData.sessionLength} onValueChange={(value) => setFormData({ ...formData, sessionLength: value })}>
+                  <Select
+                    value={formData.sessionLength}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, sessionLength: value })
+                    }
+                  >
                     <SelectTrigger id="sessionLength">
                       <SelectValue />
                     </SelectTrigger>
@@ -259,7 +325,12 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                       Max Students
                     </div>
                   </Label>
-                  <Select value={formData.maxStudents} onValueChange={(value) => setFormData({ ...formData, maxStudents: value })}>
+                  <Select
+                    value={formData.maxStudents}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, maxStudents: value })
+                    }
+                  >
                     <SelectTrigger id="maxStudents">
                       <SelectValue />
                     </SelectTrigger>
@@ -281,7 +352,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                 <Textarea
                   placeholder="List any materials, software, or tools students should have..."
                   value={formData.materials}
-                  onChange={(e) => setFormData({ ...formData, materials: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, materials: e.target.value })
+                  }
                   rows={3}
                 />
               </div>
@@ -292,7 +365,9 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
           <Card>
             <CardHeader>
               <CardTitle>Availability</CardTitle>
-              <CardDescription>When are you available to teach?</CardDescription>
+              <CardDescription>
+                When are you available to teach?
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-3">
@@ -305,7 +380,10 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                         checked={selectedDays.includes(day)}
                         onCheckedChange={() => handleDayToggle(day)}
                       />
-                      <Label htmlFor={day} className="cursor-pointer font-normal">
+                      <Label
+                        htmlFor={day}
+                        className="cursor-pointer font-normal"
+                      >
                         {day}
                       </Label>
                     </div>
@@ -332,7 +410,11 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                 {timeSlots.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-3">
                     {timeSlots.map((slot) => (
-                      <Badge key={slot} variant="secondary" className="gap-2 px-3 py-1.5">
+                      <Badge
+                        key={slot}
+                        variant="secondary"
+                        className="gap-2 px-3 py-1.5"
+                      >
                         {slot}
                         <button onClick={() => removeTimeSlot(slot)}>
                           <X className="w-3 h-3" />

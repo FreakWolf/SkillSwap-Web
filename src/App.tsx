@@ -21,6 +21,7 @@ import { Settings } from "./components/Settings";
 import { AppLayout } from "./components/AppLayout";
 import { supabase } from "./utils/supabase";
 import { toast } from "sonner";
+import { profileService } from "./services/profile";
 
 type Screen =
   | "auth"
@@ -91,14 +92,54 @@ export default function App() {
     }
   };
 
-  const handleProfileComplete = (profileData: any) => {
-    setUserData(profileData);
-    setCurrentScreen("skills");
+  const handleProfileComplete = async (profileData: any) => {
+    try {
+      // Extract profile information
+      const { id, email, name, profile } = profileData;
+      
+      // Save profile data to Supabase
+      await profileService.saveProfile({
+        userId: id,
+        bio: profile.bio,
+        location: profile.location,
+        languages: profile.languages,
+        profilePicture: profile.profilePicture,
+        skills: { teach: [], learn: [] } // Initialize with empty skills
+      });
+      
+      setUserData(profileData);
+      setCurrentScreen("skills");
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast.error("Failed to save profile. Please try again.");
+    }
   };
 
-  const handleSkillsComplete = (skillsData: any) => {
-    setUserData(skillsData);
-    setCurrentScreen("dashboard");
+  const handleSkillsComplete = async (skillsData: any) => {
+    try {
+      // Extract complete data including skills
+      const { id, email, name, profile, skills } = skillsData;
+      
+      // Save complete profile with skills to Supabase
+      await profileService.saveCompleteProfile({
+        userId: id,
+        bio: profile.bio,
+        location: profile.location,
+        languages: profile.languages,
+        profilePicture: profile.profilePicture,
+        skills: {
+          teach: skills.teach,
+          learn: skills.learn
+        }
+      });
+      
+      setUserData(skillsData);
+      setCurrentScreen("dashboard");
+      toast.success("Profile and skills saved successfully!");
+    } catch (error) {
+      console.error("Error saving skills:", error);
+      toast.error("Failed to save skills. Please try again.");
+    }
   };
 
   const handleNavigate = (screen: string, data?: any) => {

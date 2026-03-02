@@ -1,24 +1,18 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { 
   Search, 
   MessageCircle, 
-  Clock, 
-  Archive,
   MoreVertical,
-  Star,
-  Users,
   Send,
   Paperclip,
   Smile,
   CheckCheck,
-  Check
 } from 'lucide-react';
-import { Separator } from './ui/separator';
 import { ScrollArea } from './ui/scroll-area';
 
 interface MessagingInboxProps {

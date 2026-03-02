@@ -1,23 +1,28 @@
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Badge } from './ui/badge';
-import { Textarea } from './ui/textarea';
-import { Progress } from './ui/progress';
-import { Checkbox } from './ui/checkbox';
-import { 
-  Star, 
-  Clock, 
-  CheckCircle, 
+import { useState } from "react";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { Textarea } from "./ui/textarea";
+import { Progress } from "./ui/progress";
+import { Checkbox } from "./ui/checkbox";
+import {
+  Star,
+  Clock,
+  CheckCircle,
   Flag,
   Calendar,
   ThumbsUp,
   MessageCircle,
-  BookOpen,
   TrendingUp,
-  Award
-} from 'lucide-react';
+  Award,
+} from "lucide-react";
 
 interface SessionRatingProps {
   userData: any;
@@ -25,66 +30,64 @@ interface SessionRatingProps {
   onNavigate: (screen: string, data?: any) => void;
 }
 
-export function SessionRating({ userData, sessionData, onNavigate }: SessionRatingProps) {
+export function SessionRating({ sessionData, onNavigate }: SessionRatingProps) {
   const [rating, setRating] = useState(0);
-  const [feedback, setFeedback] = useState('');
-  const [skillProgress, setSkillProgress] = useState<Record<string, number>>({});
+  const [feedback, setFeedback] = useState("");
+  const [skillProgress] = useState<Record<string, number>>({});
   const [quickTags, setQuickTags] = useState<string[]>([]);
   const [followUpBooking, setFollowUpBooking] = useState(false);
 
   // Mock session data
   const session = sessionData || {
     id: 1,
-    title: 'JavaScript Fundamentals',
-    participant: 'Alex Johnson',
-    type: 'learning',
+    title: "JavaScript Fundamentals",
+    participant: "Alex Johnson",
+    type: "learning",
     duration: 65,
-    skill: 'JavaScript',
+    skill: "JavaScript",
     date: new Date().toLocaleDateString(),
-    topics: ['Variables', 'Functions', 'Arrays', 'Loops']
+    topics: ["Variables", "Functions", "Arrays", "Loops"],
   };
 
   const availableTags = [
-    'Excellent teacher',
-    'Clear explanations',
-    'Good pace',
-    'Interactive session',
-    'Well prepared',
-    'Patient',
-    'Knowledgeable',
-    'Encouraging',
-    'Good examples',
-    'Helpful resources'
+    "Excellent teacher",
+    "Clear explanations",
+    "Good pace",
+    "Interactive session",
+    "Well prepared",
+    "Patient",
+    "Knowledgeable",
+    "Encouraging",
+    "Good examples",
+    "Helpful resources",
   ];
 
   const skillAreas = [
-    { name: 'JavaScript Basics', before: 30, after: 60 },
-    { name: 'Function Understanding', before: 20, after: 70 },
-    { name: 'Array Methods', before: 10, after: 50 },
-    { name: 'Problem Solving', before: 40, after: 65 }
+    { name: "JavaScript Basics", before: 30, after: 60 },
+    { name: "Function Understanding", before: 20, after: 70 },
+    { name: "Array Methods", before: 10, after: 50 },
+    { name: "Problem Solving", before: 40, after: 65 },
   ];
 
   const handleTagToggle = (tag: string) => {
-    setQuickTags(prev => 
-      prev.includes(tag) 
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
+    setQuickTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
 
   const handleSubmitRating = () => {
     // In a real app, this would submit to backend
-    console.log('Submitting rating:', {
+    console.log("Submitting rating:", {
       sessionId: session.id,
       rating,
       feedback,
       quickTags,
       skillProgress,
-      followUpBooking
+      followUpBooking,
     });
 
     // Navigate back to dashboard or session history
-    onNavigate('dashboard');
+    onNavigate("dashboard");
   };
 
   const formatDuration = (minutes: number) => {
@@ -103,7 +106,9 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
               <CheckCircle className="w-6 h-6 text-green-500" />
               <div>
                 <h1>Session Complete!</h1>
-                <p className="text-sm text-muted-foreground">Rate your experience</p>
+                <p className="text-sm text-muted-foreground">
+                  Rate your experience
+                </p>
               </div>
             </div>
           </div>
@@ -120,12 +125,17 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                 <div className="flex items-center space-x-4 mb-6">
                   <Avatar className="w-16 h-16">
                     <AvatarFallback>
-                      {session.participant.split(' ').map((n: string) => n[0]).join('')}
+                      {session.participant
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <h3>{session.title}</h3>
-                    <p className="text-muted-foreground">with {session.participant}</p>
+                    <p className="text-muted-foreground">
+                      with {session.participant}
+                    </p>
                     <div className="flex items-center space-x-4 mt-2 text-sm text-muted-foreground">
                       <div className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
@@ -158,7 +168,9 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
             <Card>
               <CardHeader>
                 <CardTitle>Rate Your Session</CardTitle>
-                <CardDescription>How was your learning experience?</CardDescription>
+                <CardDescription>
+                  How was your learning experience?
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Star Rating */}
@@ -172,9 +184,9 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                       >
                         <Star
                           className={`w-8 h-8 ${
-                            star <= rating 
-                              ? 'fill-yellow-400 text-yellow-400' 
-                              : 'text-gray-300'
+                            star <= rating
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "text-gray-300"
                           }`}
                         />
                       </button>
@@ -182,10 +194,15 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                   </div>
                   {rating > 0 && (
                     <p className="text-muted-foreground">
-                      {rating === 5 ? 'Excellent!' : 
-                       rating === 4 ? 'Very Good!' :
-                       rating === 3 ? 'Good' :
-                       rating === 2 ? 'Fair' : 'Needs Improvement'}
+                      {rating === 5
+                        ? "Excellent!"
+                        : rating === 4
+                          ? "Very Good!"
+                          : rating === 3
+                            ? "Good"
+                            : rating === 2
+                              ? "Fair"
+                              : "Needs Improvement"}
                     </p>
                   )}
                 </div>
@@ -197,7 +214,9 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                     {availableTags.map((tag) => (
                       <Button
                         key={tag}
-                        variant={quickTags.includes(tag) ? "default" : "outline"}
+                        variant={
+                          quickTags.includes(tag) ? "default" : "outline"
+                        }
                         size="sm"
                         onClick={() => handleTagToggle(tag)}
                         className="justify-start h-auto py-2"
@@ -229,7 +248,9 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                   <TrendingUp className="w-5 h-5 mr-2" />
                   Your Learning Progress
                 </CardTitle>
-                <CardDescription>How do you feel about these skills now?</CardDescription>
+                <CardDescription>
+                  How do you feel about these skills now?
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {skillAreas.map((skill) => (
@@ -239,14 +260,19 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                       <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                         <span>Before: {skill.before}%</span>
                         <span>→</span>
-                        <span className="text-green-600">After: {skill.after}%</span>
+                        <span className="text-green-600">
+                          After: {skill.after}%
+                        </span>
                       </div>
                     </div>
                     <div className="relative">
-                      <Progress value={skill.before} className="h-2 opacity-50" />
-                      <Progress 
-                        value={skill.after} 
-                        className="h-2 absolute top-0 left-0" 
+                      <Progress
+                        value={skill.before}
+                        className="h-2 opacity-50"
+                      />
+                      <Progress
+                        value={skill.after}
+                        className="h-2 absolute top-0 left-0"
                       />
                     </div>
                   </div>
@@ -261,11 +287,17 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
                   <Checkbox
                     id="followup"
                     checked={followUpBooking}
-                    onCheckedChange={(checked) => setFollowUpBooking(checked as boolean)}
+                    onCheckedChange={(checked) =>
+                      setFollowUpBooking(checked as boolean)
+                    }
                   />
                   <div>
-                    <label htmlFor="followup" className="text-sm cursor-pointer">
-                      I'd like to book another session with {session.participant}
+                    <label
+                      htmlFor="followup"
+                      className="text-sm cursor-pointer"
+                    >
+                      I'd like to book another session with{" "}
+                      {session.participant}
                     </label>
                     <p className="text-xs text-muted-foreground mt-1">
                       Continue your learning journey with the same teacher
@@ -277,10 +309,10 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
 
             {/* Submit Button */}
             <div className="flex justify-between">
-              <Button variant="outline" onClick={() => onNavigate('dashboard')}>
+              <Button variant="outline" onClick={() => onNavigate("dashboard")}>
                 Skip Rating
               </Button>
-              <Button 
+              <Button
                 onClick={handleSubmitRating}
                 disabled={rating === 0}
                 className="px-8"
@@ -349,7 +381,11 @@ export function SessionRating({ userData, sessionData, onNavigate }: SessionRati
             {/* Report Issue */}
             <Card>
               <CardContent className="p-4">
-                <Button variant="ghost" size="sm" className="w-full text-muted-foreground">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full text-muted-foreground"
+                >
                   <Flag className="w-4 h-4 mr-2" />
                   Report an Issue
                 </Button>

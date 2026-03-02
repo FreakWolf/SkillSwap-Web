@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { profileService, UserProfile } from "../services/profile";
 import {
   Home,
   Search,
@@ -14,7 +15,6 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,6 +39,17 @@ export function AppLayout({
 }: AppLayoutProps) {
   const [unreadMessages] = useState(3);
   const [unreadNotifications] = useState(5);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (userData?.id) {
+        const profile = await profileService.getProfile(userData.id);
+        setUserProfile(profile);
+      }
+    };
+    fetchProfile();
+  }, [userData?.id]);
 
   const navigation = [
     { name: "Dashboard", icon: Home, screen: "dashboard" },
@@ -116,7 +127,7 @@ export function AppLayout({
             <DropdownMenuTrigger asChild>
               <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 transition-colors">
                 <Avatar className="w-9 h-9">
-                  <AvatarImage src={userData?.avatar} />
+                  <AvatarImage src={userProfile?.profilePicture || userData?.avatar} />
                   <AvatarFallback>
                     {userData?.name?.charAt(0) || "U"}
                   </AvatarFallback>

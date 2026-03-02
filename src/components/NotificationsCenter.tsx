@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { 
   Bell, 
   Calendar, 
@@ -15,7 +12,6 @@ import {
   Clock,
   MoreVertical,
   Check,
-  X,
   Settings
 } from 'lucide-react';
 import { Separator } from './ui/separator';

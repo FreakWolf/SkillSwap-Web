@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,

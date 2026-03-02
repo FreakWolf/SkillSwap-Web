@@ -1,28 +1,37 @@
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Switch } from './ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Calendar } from './ui/calendar';
-import { 
-  Upload, 
-  MapPin, 
-  Bell, 
-  Shield, 
-  Eye, 
-  EyeOff,
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Badge } from "./ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Switch } from "./ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import {
+  Upload,
+  MapPin,
+  Bell,
+  Shield,
   Plus,
   X,
   ArrowLeft,
   Save,
-  CheckCircle
-} from 'lucide-react';
+  CheckCircle,
+} from "lucide-react";
 
 interface ProfileEditProps {
   userData: any;
@@ -31,14 +40,14 @@ interface ProfileEditProps {
 
 export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
   const [profileData, setProfileData] = useState({
-    name: userData?.name || '',
-    email: userData?.email || '',
-    bio: userData?.profile?.bio || '',
-    location: userData?.profile?.location || '',
-    phone: '',
-    website: '',
-    timezone: 'PST',
-    hourlyRate: 25
+    name: userData?.name || "",
+    email: userData?.email || "",
+    bio: userData?.profile?.bio || "",
+    location: userData?.profile?.location || "",
+    phone: "",
+    website: "",
+    timezone: "PST",
+    hourlyRate: 25,
   });
 
   const [notificationSettings, setNotificationSettings] = useState({
@@ -48,39 +57,43 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
     pushBookings: true,
     pushMessages: false,
     pushReminders: true,
-    marketingEmails: false
+    marketingEmails: false,
   });
 
   const [privacySettings, setPrivacySettings] = useState({
     showEmail: false,
     showPhone: false,
     showLastSeen: true,
-    profileVisibility: 'public',
-    allowMessages: 'verified'
+    profileVisibility: "public",
+    allowMessages: "verified",
   });
 
   const [skills, setSkills] = useState([
-    { name: 'JavaScript', type: 'teach', level: 'expert' },
-    { name: 'React', type: 'teach', level: 'expert' },
-    { name: 'Python', type: 'learn', level: 'beginner' }
+    { name: "JavaScript", type: "teach", level: "expert" },
+    { name: "React", type: "teach", level: "expert" },
+    { name: "Python", type: "learn", level: "beginner" },
   ]);
 
   const [availability, setAvailability] = useState({
-    monday: { enabled: true, times: ['9:00 AM', '2:00 PM'] },
-    tuesday: { enabled: true, times: ['10:00 AM'] },
+    monday: { enabled: true, times: ["9:00 AM", "2:00 PM"] },
+    tuesday: { enabled: true, times: ["10:00 AM"] },
     wednesday: { enabled: false, times: [] },
-    thursday: { enabled: true, times: ['1:00 PM', '6:00 PM'] },
-    friday: { enabled: true, times: ['11:00 AM'] },
+    thursday: { enabled: true, times: ["1:00 PM", "6:00 PM"] },
+    friday: { enabled: true, times: ["11:00 AM"] },
     saturday: { enabled: false, times: [] },
-    sunday: { enabled: false, times: [] }
+    sunday: { enabled: false, times: [] },
   });
 
-  const [newSkill, setNewSkill] = useState({ name: '', type: 'teach', level: 'beginner' });
+  const [newSkill, setNewSkill] = useState({
+    name: "",
+    type: "teach",
+    level: "beginner",
+  });
 
   const addSkill = () => {
     if (newSkill.name.trim()) {
       setSkills([...skills, { ...newSkill, name: newSkill.name.trim() }]);
-      setNewSkill({ name: '', type: 'teach', level: 'beginner' });
+      setNewSkill({ name: "", type: "teach", level: "beginner" });
     }
   };
 
@@ -90,8 +103,14 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
 
   const handleSave = () => {
     // In a real app, this would save to backend
-    console.log('Saving profile data:', { profileData, notificationSettings, privacySettings, skills, availability });
-    onNavigate('profile');
+    console.log("Saving profile data:", {
+      profileData,
+      notificationSettings,
+      privacySettings,
+      skills,
+      availability,
+    });
+    onNavigate("profile");
   };
 
   return (
@@ -101,10 +120,10 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => onNavigate('profile')}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onNavigate("profile")}
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Profile
@@ -128,20 +147,25 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="privacy">Privacy</TabsTrigger>
           </TabsList>
-          
+
           {/* Personal Information */}
           <TabsContent value="personal" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Personal Information</CardTitle>
-                <CardDescription>Update your personal details and profile picture</CardDescription>
+                <CardDescription>
+                  Update your personal details and profile picture
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Profile Picture */}
                 <div className="flex items-center space-x-6">
                   <Avatar className="w-24 h-24">
                     <AvatarFallback className="text-2xl">
-                      {profileData.name.split(' ').map((n: string) => n[0]).join('')}
+                      {profileData.name
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -162,7 +186,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <Input
                       id="name"
                       value={profileData.name}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -171,7 +200,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       id="email"
                       type="email"
                       value={profileData.email}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -179,7 +213,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <Input
                       id="phone"
                       value={profileData.phone}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          phone: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -187,7 +226,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <Input
                       id="website"
                       value={profileData.website}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, website: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          website: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -199,7 +243,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     id="bio"
                     placeholder="Tell others about yourself, your expertise, and teaching style..."
                     value={profileData.bio}
-                    onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
+                    onChange={(e) =>
+                      setProfileData((prev) => ({
+                        ...prev,
+                        bio: e.target.value,
+                      }))
+                    }
                     rows={4}
                   />
                 </div>
@@ -213,7 +262,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       id="location"
                       placeholder="City, Country"
                       value={profileData.location}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, location: e.target.value }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          location: e.target.value,
+                        }))
+                      }
                       className="pl-10"
                     />
                   </div>
@@ -223,17 +277,26 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="timezone">Timezone</Label>
-                    <Select value={profileData.timezone} onValueChange={(value) => 
-                      setProfileData(prev => ({ ...prev, timezone: value }))
-                    }>
+                    <Select
+                      value={profileData.timezone}
+                      onValueChange={(value) =>
+                        setProfileData((prev) => ({ ...prev, timezone: value }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="PST">Pacific Standard Time</SelectItem>
-                        <SelectItem value="EST">Eastern Standard Time</SelectItem>
+                        <SelectItem value="PST">
+                          Pacific Standard Time
+                        </SelectItem>
+                        <SelectItem value="EST">
+                          Eastern Standard Time
+                        </SelectItem>
                         <SelectItem value="GMT">Greenwich Mean Time</SelectItem>
-                        <SelectItem value="CET">Central European Time</SelectItem>
+                        <SelectItem value="CET">
+                          Central European Time
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -243,7 +306,12 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       id="rate"
                       type="number"
                       value={profileData.hourlyRate}
-                      onChange={(e) => setProfileData(prev => ({ ...prev, hourlyRate: parseInt(e.target.value) }))}
+                      onChange={(e) =>
+                        setProfileData((prev) => ({
+                          ...prev,
+                          hourlyRate: parseInt(e.target.value),
+                        }))
+                      }
                     />
                   </div>
                 </div>
@@ -264,7 +332,9 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <CheckCircle className="w-5 h-5 text-green-500" />
                     <div>
                       <p>Email Verified</p>
-                      <p className="text-sm text-muted-foreground">Your email has been verified</p>
+                      <p className="text-sm text-muted-foreground">
+                        Your email has been verified
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -273,20 +343,28 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <div className="w-5 h-5 rounded-full bg-gray-300"></div>
                     <div>
                       <p>Phone Verification</p>
-                      <p className="text-sm text-muted-foreground">Verify your phone number</p>
+                      <p className="text-sm text-muted-foreground">
+                        Verify your phone number
+                      </p>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">Verify</Button>
+                  <Button variant="outline" size="sm">
+                    Verify
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center space-x-3">
                     <div className="w-5 h-5 rounded-full bg-gray-300"></div>
                     <div>
                       <p>Identity Verification</p>
-                      <p className="text-sm text-muted-foreground">Upload government ID</p>
+                      <p className="text-sm text-muted-foreground">
+                        Upload government ID
+                      </p>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm">Upload</Button>
+                  <Button variant="outline" size="sm">
+                    Upload
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -297,7 +375,9 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Skills Management</CardTitle>
-                <CardDescription>Add or remove skills you can teach or want to learn</CardDescription>
+                <CardDescription>
+                  Add or remove skills you can teach or want to learn
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Current Skills */}
@@ -305,10 +385,17 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                   <h3>Current Skills</h3>
                   <div className="space-y-2">
                     {skills.map((skill, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 border rounded-lg"
+                      >
                         <div className="flex items-center space-x-3">
-                          <Badge variant={skill.type === 'teach' ? 'default' : 'secondary'}>
-                            {skill.type === 'teach' ? 'Teaching' : 'Learning'}
+                          <Badge
+                            variant={
+                              skill.type === "teach" ? "default" : "secondary"
+                            }
+                          >
+                            {skill.type === "teach" ? "Teaching" : "Learning"}
                           </Badge>
                           <span>{skill.name}</span>
                           <Badge variant="outline">{skill.level}</Badge>
@@ -332,11 +419,19 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     <Input
                       placeholder="Skill name"
                       value={newSkill.name}
-                      onChange={(e) => setNewSkill(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setNewSkill((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                     />
-                    <Select value={newSkill.type} onValueChange={(value: 'teach' | 'learn') => 
-                      setNewSkill(prev => ({ ...prev, type: value }))
-                    }>
+                    <Select
+                      value={newSkill.type}
+                      onValueChange={(value: "teach" | "learn") =>
+                        setNewSkill((prev) => ({ ...prev, type: value }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
@@ -345,15 +440,20 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                         <SelectItem value="learn">Learning</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Select value={newSkill.level} onValueChange={(value) => 
-                      setNewSkill(prev => ({ ...prev, level: value }))
-                    }>
+                    <Select
+                      value={newSkill.level}
+                      onValueChange={(value) =>
+                        setNewSkill((prev) => ({ ...prev, level: value }))
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="beginner">Beginner</SelectItem>
-                        <SelectItem value="intermediate">Intermediate</SelectItem>
+                        <SelectItem value="intermediate">
+                          Intermediate
+                        </SelectItem>
                         <SelectItem value="advanced">Advanced</SelectItem>
                         <SelectItem value="expert">Expert</SelectItem>
                       </SelectContent>
@@ -373,29 +473,38 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Availability Calendar</CardTitle>
-                <CardDescription>Set your weekly availability for teaching sessions</CardDescription>
+                <CardDescription>
+                  Set your weekly availability for teaching sessions
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {Object.entries(availability).map(([day, settings]) => (
-                  <div key={day} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={day}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
                     <div className="flex items-center space-x-3">
                       <Switch
                         checked={settings.enabled}
-                        onCheckedChange={(checked) => 
-                          setAvailability(prev => ({
+                        onCheckedChange={(checked) =>
+                          setAvailability((prev) => ({
                             ...prev,
-                            [day]: { ...prev[day as keyof typeof prev], enabled: checked }
+                            [day]: {
+                              ...prev[day as keyof typeof prev],
+                              enabled: checked,
+                            },
                           }))
                         }
                       />
                       <span className="capitalize min-w-[80px]">{day}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      {settings.enabled && settings.times.map((time, index) => (
-                        <Badge key={index} variant="outline">
-                          {time}
-                        </Badge>
-                      ))}
+                      {settings.enabled &&
+                        settings.times.map((time, index) => (
+                          <Badge key={index} variant="outline">
+                            {time}
+                          </Badge>
+                        ))}
                       {settings.enabled && (
                         <Button variant="outline" size="sm">
                           <Plus className="w-4 h-4" />
@@ -421,17 +530,27 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                 <div className="space-y-4">
                   <h4>Email Notifications</h4>
                   {Object.entries({
-                    emailBookings: 'New booking requests',
-                    emailMessages: 'New messages',
-                    emailReminders: 'Session reminders',
-                    marketingEmails: 'Marketing and promotions'
+                    emailBookings: "New booking requests",
+                    emailMessages: "New messages",
+                    emailReminders: "Session reminders",
+                    marketingEmails: "Marketing and promotions",
                   }).map(([key, label]) => (
-                    <div key={key} className="flex items-center justify-between">
+                    <div
+                      key={key}
+                      className="flex items-center justify-between"
+                    >
                       <span>{label}</span>
                       <Switch
-                        checked={notificationSettings[key as keyof typeof notificationSettings]}
+                        checked={
+                          notificationSettings[
+                            key as keyof typeof notificationSettings
+                          ]
+                        }
                         onCheckedChange={(checked) =>
-                          setNotificationSettings(prev => ({ ...prev, [key]: checked }))
+                          setNotificationSettings((prev) => ({
+                            ...prev,
+                            [key]: checked,
+                          }))
                         }
                       />
                     </div>
@@ -441,16 +560,26 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                 <div className="space-y-4">
                   <h4>Push Notifications</h4>
                   {Object.entries({
-                    pushBookings: 'New booking requests',
-                    pushMessages: 'New messages',
-                    pushReminders: 'Session reminders'
+                    pushBookings: "New booking requests",
+                    pushMessages: "New messages",
+                    pushReminders: "Session reminders",
                   }).map(([key, label]) => (
-                    <div key={key} className="flex items-center justify-between">
+                    <div
+                      key={key}
+                      className="flex items-center justify-between"
+                    >
                       <span>{label}</span>
                       <Switch
-                        checked={notificationSettings[key as keyof typeof notificationSettings]}
+                        checked={
+                          notificationSettings[
+                            key as keyof typeof notificationSettings
+                          ]
+                        }
                         onCheckedChange={(checked) =>
-                          setNotificationSettings(prev => ({ ...prev, [key]: checked }))
+                          setNotificationSettings((prev) => ({
+                            ...prev,
+                            [key]: checked,
+                          }))
                         }
                       />
                     </div>
@@ -478,7 +607,10 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       <Switch
                         checked={privacySettings.showEmail}
                         onCheckedChange={(checked) =>
-                          setPrivacySettings(prev => ({ ...prev, showEmail: checked }))
+                          setPrivacySettings((prev) => ({
+                            ...prev,
+                            showEmail: checked,
+                          }))
                         }
                       />
                     </div>
@@ -487,7 +619,10 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       <Switch
                         checked={privacySettings.showPhone}
                         onCheckedChange={(checked) =>
-                          setPrivacySettings(prev => ({ ...prev, showPhone: checked }))
+                          setPrivacySettings((prev) => ({
+                            ...prev,
+                            showPhone: checked,
+                          }))
                         }
                       />
                     </div>
@@ -496,7 +631,10 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                       <Switch
                         checked={privacySettings.showLastSeen}
                         onCheckedChange={(checked) =>
-                          setPrivacySettings(prev => ({ ...prev, showLastSeen: checked }))
+                          setPrivacySettings((prev) => ({
+                            ...prev,
+                            showLastSeen: checked,
+                          }))
                         }
                       />
                     </div>
@@ -505,10 +643,13 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
 
                 <div className="space-y-4">
                   <h4>Who can message you?</h4>
-                  <Select 
-                    value={privacySettings.allowMessages} 
-                    onValueChange={(value) => 
-                      setPrivacySettings(prev => ({ ...prev, allowMessages: value }))
+                  <Select
+                    value={privacySettings.allowMessages}
+                    onValueChange={(value) =>
+                      setPrivacySettings((prev) => ({
+                        ...prev,
+                        allowMessages: value,
+                      }))
                     }
                   >
                     <SelectTrigger>
@@ -516,7 +657,9 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="everyone">Everyone</SelectItem>
-                      <SelectItem value="verified">Verified users only</SelectItem>
+                      <SelectItem value="verified">
+                        Verified users only
+                      </SelectItem>
                       <SelectItem value="students">Students only</SelectItem>
                       <SelectItem value="none">No one</SelectItem>
                     </SelectContent>

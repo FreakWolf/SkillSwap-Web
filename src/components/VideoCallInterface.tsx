@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { ScrollArea } from './ui/scroll-area';
@@ -10,21 +9,16 @@ import {
   VideoOff, 
   Mic, 
   MicOff, 
-  Phone,
   PhoneOff,
   Share,
   MessageCircle,
   Settings,
   Monitor,
-  Camera,
-  Volume2,
-  VolumeX,
   Maximize,
   Minimize,
   Users,
   Clock,
   Send,
-  MoreVertical
 } from 'lucide-react';
 
 interface VideoCallInterfaceProps {

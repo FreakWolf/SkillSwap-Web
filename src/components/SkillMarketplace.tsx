@@ -4,7 +4,6 @@ import { Input } from "./ui/input";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "./ui/card";
@@ -23,12 +22,9 @@ import {
   MapPin,
   Clock,
   Heart,
-  TrendingUp,
   Users,
-  Award,
 } from "lucide-react";
 import { Separator } from "./ui/separator";
-import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 
@@ -53,7 +49,6 @@ interface SkillMarketplaceProps {
 }
 
 export function SkillMarketplace({
-  userData,
   onNavigate,
 }: SkillMarketplaceProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,9 +56,6 @@ export function SkillMarketplace({
   const [sortBy, setSortBy] = useState("rating");
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [minRating, setMinRating] = useState(0);
-  const [availableNow, setAvailableNow] = useState(false);
-  const [availableToday, setAvailableToday] = useState(false);
-  const [availableWeek, setAvailableWeek] = useState(false);
   const [likedSkills, setLikedSkills] = useState<string[]>([]);
 
   const handleLikeToggle = (skillId: string) => {

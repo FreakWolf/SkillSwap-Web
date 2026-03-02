@@ -28,13 +28,20 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"h4">) {
+function CardTitle({ className, children, ...props }: React.ComponentProps<"h4">) {
+  const finalProps = { ...props };
+  if (!children && !finalProps['aria-label'] && !finalProps['aria-labelledby']) {
+    finalProps['aria-label'] = "Card Title"; // Default accessible name
+  }
+
   return (
     <h4
       data-slot="card-title"
       className={cn("leading-none", className)}
-      {...props}
-    />
+      {...finalProps}
+    >
+      {children}
+    </h4>
   );
 }
 

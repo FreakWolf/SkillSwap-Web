@@ -26,10 +26,10 @@ export function SkillsSelection({ userData, onComplete, onNavigate }: SkillsSele
   const [newSkill, setNewSkill] = useState<{ name: string; level: 'beginner' | 'intermediate' | 'expert'; category: string }>({ name: '', level: 'beginner', category: '' });
   const [customSkill, setCustomSkill] = useState('');
 
-  const skillCategories = [
-    'Programming', 'Design', 'Languages', 'Music', 'Sports', 'Cooking',
-    'Photography', 'Writing', 'Marketing', 'Finance', 'Art', 'Crafts'
-  ];
+  // const skillCategories = [
+  //   'Programming', 'Design', 'Languages', 'Music', 'Sports', 'Cooking',
+  //   'Photography', 'Writing', 'Marketing', 'Finance', 'Art', 'Crafts'
+  // ];
 
   const popularSkills = [
     { name: 'JavaScript', category: 'Programming' },

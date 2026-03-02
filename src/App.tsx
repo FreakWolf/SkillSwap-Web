@@ -58,18 +58,21 @@ export default function App() {
         try {
           const { data, error } = await supabase.auth.getSession();
           if (error) throw error;
-          
+
           if (data.session) {
             const user = {
-            id: data.session.user.id,
-            email: data.session.user.email || '',
-            name: data.session.user.user_metadata?.name || '',
-            isNewUser: false,
-          };
-            
+              id: data.session.user.id,
+              email: data.session.user.email || "",
+              name: data.session.user.user_metadata?.name || "",
+              isNewUser: false,
+            };
+
             // Determine the provider from user metadata
-            const provider = data.session.user.app_metadata.provider || 'Google';
-            toast.success(`Successfully signed in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}!`);
+            const provider =
+              data.session.user.app_metadata.provider || "Google";
+            toast.success(
+              `Successfully signed in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}!`,
+            );
             setUserData(user);
             setCurrentScreen(user.isNewUser ? "profile" : "dashboard");
           }
@@ -95,8 +98,8 @@ export default function App() {
   const handleProfileComplete = async (profileData: any) => {
     try {
       // Extract profile information
-      const { id, email, name, profile } = profileData;
-      
+      const { id, profile } = profileData;
+
       // Save profile data to Supabase
       await profileService.saveProfile({
         userId: id,
@@ -104,9 +107,9 @@ export default function App() {
         location: profile.location,
         languages: profile.languages,
         profilePicture: profile.profilePicture,
-        skills: { teach: [], learn: [] } // Initialize with empty skills
+        skills: { teach: [], learn: [] }, // Initialize with empty skills
       });
-      
+
       setUserData(profileData);
       setCurrentScreen("skills");
     } catch (error) {
@@ -118,8 +121,8 @@ export default function App() {
   const handleSkillsComplete = async (skillsData: any) => {
     try {
       // Extract complete data including skills
-      const { id, email, name, profile, skills } = skillsData;
-      
+      const { id, profile, skills } = skillsData;
+
       // Save complete profile with skills to Supabase
       await profileService.saveCompleteProfile({
         userId: id,
@@ -129,10 +132,10 @@ export default function App() {
         profilePicture: profile.profilePicture,
         skills: {
           teach: skills.teach,
-          learn: skills.learn
-        }
+          learn: skills.learn,
+        },
       });
-      
+
       setUserData(skillsData);
       setCurrentScreen("dashboard");
       toast.success("Profile and skills saved successfully!");
@@ -148,16 +151,12 @@ export default function App() {
   };
 
   // Screens that don't use the main app layout (onboarding flows)
-  const isOnboardingScreen = [
-    "auth",
-    "profile",
-    "skills",
-  ].includes(currentScreen);
-
-  // Full-screen experiences (video calls)
-  const isFullScreenExperience = ["videoCall"].includes(
+  const isOnboardingScreen = ["auth", "profile", "skills"].includes(
     currentScreen,
   );
+
+  // Full-screen experiences (video calls)
+  const isFullScreenExperience = ["videoCall"].includes(currentScreen);
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -180,33 +179,17 @@ export default function App() {
           />
         );
       case "dashboard":
-        return (
-          <Dashboard
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <Dashboard userData={userData} onNavigate={handleNavigate} />;
       case "marketplace":
         return (
-          <SkillMarketplace
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
+          <SkillMarketplace userData={userData} onNavigate={handleNavigate} />
         );
       case "publicProfile":
         return (
-          <PublicProfile
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
+          <PublicProfile userData={userData} onNavigate={handleNavigate} />
         );
       case "profileEdit":
-        return (
-          <ProfileEdit
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <ProfileEdit userData={userData} onNavigate={handleNavigate} />;
       case "booking":
         return (
           <BookingScreen
@@ -217,10 +200,7 @@ export default function App() {
         );
       case "messages":
         return (
-          <MessagingInbox
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
+          <MessagingInbox userData={userData} onNavigate={handleNavigate} />
         );
       case "chat":
         return (
@@ -231,12 +211,7 @@ export default function App() {
           />
         );
       case "calendar":
-        return (
-          <CalendarView
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <CalendarView userData={userData} onNavigate={handleNavigate} />;
       case "videoCall":
         return (
           <VideoCallInterface
@@ -255,17 +230,11 @@ export default function App() {
         );
       case "analytics":
         return (
-          <AnalyticsDashboard
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
+          <AnalyticsDashboard userData={userData} onNavigate={handleNavigate} />
         );
       case "premium":
         return (
-          <PremiumFeatures
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
+          <PremiumFeatures userData={userData} onNavigate={handleNavigate} />
         );
       case "notifications":
         return (
@@ -279,16 +248,12 @@ export default function App() {
         return (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
             <div className="text-center">
-              <h2 className="text-2xl mb-4">
-                Session Preparation
-              </h2>
+              <h2 className="text-2xl mb-4">Session Preparation</h2>
               <p className="text-muted-foreground mb-4">
                 Preparing for your session...
               </p>
               <button
-                onClick={() =>
-                  handleNavigate("videoCall", navigationData)
-                }
+                onClick={() => handleNavigate("videoCall", navigationData)}
                 className="px-4 py-2 bg-blue-500 text-white rounded mr-2"
               >
                 Start Session
@@ -303,26 +268,11 @@ export default function App() {
           </div>
         );
       case "offerSkill":
-        return (
-          <OfferSkill
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <OfferSkill userData={userData} onNavigate={handleNavigate} />;
       case "userProfile":
-        return (
-          <UserProfile
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <UserProfile userData={userData} onNavigate={handleNavigate} />;
       case "settings":
-        return (
-          <Settings
-            userData={userData}
-            onNavigate={handleNavigate}
-          />
-        );
+        return <Settings userData={userData} onNavigate={handleNavigate} />;
       default:
         return <AuthScreen onComplete={handleAuthComplete} />;
     }

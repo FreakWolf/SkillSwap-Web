@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -49,7 +49,7 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
   };
 
   // Mock messages
-  const initialMessages = [
+  const initialMessages = useMemo(() => [
     {
       id: 1,
       sender: "them",
@@ -95,11 +95,11 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
       type: "text",
       status: "read",
     },
-  ];
+  ], []);
 
   useEffect(() => {
     setMessages(initialMessages);
-  }, []);
+  }, [initialMessages]);
 
   useEffect(() => {
     scrollToBottom();

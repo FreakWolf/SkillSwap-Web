@@ -16,7 +16,6 @@ import {
   Download,
   BarChart3,
   ArrowUp,
-  ArrowDown
 } from 'lucide-react';
 
 interface AnalyticsDashboardProps {

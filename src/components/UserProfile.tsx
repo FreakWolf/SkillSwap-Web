@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Edit3, Star, TrendingUp, Calendar, MessageSquare, Award, Settings, Plus, ExternalLink } from "lucide-react";
+import { ArrowLeft, Edit3, Star, TrendingUp, Calendar, MessageSquare,  Settings, Plus, ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";

@@ -124,7 +124,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen flex flex-col bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,7 +153,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow overflow-y-auto hide-scrollbar">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Profile Content */}
           <div className="lg:col-span-2 space-y-6">
@@ -382,7 +382,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                   onSelect={setSelectedDate}
                   className="rounded-lg border"
                   modifiers={{ available: availableDates }}
-                  modifiersClassNames={{ available: "bg-green-200 text-green-800 rounded-full flex items-center justify-center" }}
+                  modifiersClassNames={{ available: "bg-green-200 text-green-800 rounded-full flex items-center justify-center hover:bg-green-300 aria-selected:bg-green-600 aria-selected:text-white" }}
                 />
                 <div className="mt-4 space-y-2">
                   {profileData.availability.slots.map((slot) => (

@@ -140,13 +140,15 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="personal" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="personal">Personal</TabsTrigger>
-            <TabsTrigger value="skills">Skills</TabsTrigger>
-            <TabsTrigger value="availability">Availability</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
-            <TabsTrigger value="privacy">Privacy</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto pb-2">
+            <TabsList className="grid w-max grid-cols-5 min-w-full sm:min-w-0 sm:w-full">
+              <TabsTrigger value="personal">Personal</TabsTrigger>
+              <TabsTrigger value="skills">Skills</TabsTrigger>
+              <TabsTrigger value="availability">Availability</TabsTrigger>
+              <TabsTrigger value="notifications">Notifications</TabsTrigger>
+              <TabsTrigger value="privacy">Privacy</TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Personal Information */}
           <TabsContent value="personal" className="space-y-6">
@@ -159,7 +161,7 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* Profile Picture */}
-                <div className="flex items-center space-x-6">
+                <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
                   <Avatar className="w-24 h-24">
                     <AvatarFallback className="text-2xl">
                       {profileData.name
@@ -415,7 +417,7 @@ export function ProfileEdit({ userData, onNavigate }: ProfileEditProps) {
                 {/* Add New Skill */}
                 <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
                   <h4>Add New Skill</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                     <Input
                       placeholder="Skill name"
                       value={newSkill.name}

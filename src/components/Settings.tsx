@@ -83,25 +83,17 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
   return (
     <div className="h-full overflow-y-auto bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Manage your account and preferences
-            </p>
-          </div>
-          <Button onClick={handleSave}>
-            <Save className="w-4 h-4 mr-2" />
-            Save Changes
-          </Button>
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-8 sm:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+          <h2 className="text-xl font-semibold text-gray-800">Settings</h2>
+          <Button className="w-full sm:w-auto">Save Changes</Button>
         </div>
       </div>
 
       <div className="p-8">
         <div className="max-w-6xl mx-auto">
           <Tabs defaultValue="account" className="space-y-6">
-            <TabsList className="bg-white border inline-flex">
+            <TabsList className="bg-white border inline-flex w-full justify-start sm:w-auto overflow-x-auto whitespace-nowrap px-2 sm:px-0">
               <TabsTrigger value="account" className="gap-2">
                 <User className="w-4 h-4" />
                 Account
@@ -130,7 +122,7 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name</Label>
                       <Input
@@ -188,7 +180,7 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
                       rows={4}
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="location">Location</Label>
                       <Input
@@ -575,7 +567,7 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
                     />
                   </div>
                   <Separator />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label>Default Session Length</Label>
                       <Select
@@ -630,7 +622,7 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label>Theme</Label>
                       <Select

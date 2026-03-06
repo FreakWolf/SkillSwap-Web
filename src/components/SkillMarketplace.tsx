@@ -23,6 +23,7 @@ import {
   Clock,
   Heart,
   Users,
+  Filter,
 } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Label } from "./ui/label";
@@ -57,6 +58,7 @@ export function SkillMarketplace({
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [minRating, setMinRating] = useState(0);
   const [likedSkills, setLikedSkills] = useState<string[]>([]);
+  const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
 
   const handleLikeToggle = (skillId: string) => {
     setLikedSkills((prevLikedSkills) =>
@@ -268,7 +270,7 @@ export function SkillMarketplace({
   return (
     <div className="h-full overflow-hidden flex flex-col bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">
@@ -278,19 +280,19 @@ export function SkillMarketplace({
               Find the perfect teacher for your learning journey
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="relative w-96">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div className="relative flex-grow w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="search"
                 placeholder="Search skills or teachers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-11 bg-neutral-200"
+                className="pl-10 h-11 bg-neutral-200 w-full"
               />
             </div>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-44 h-11 bg-neutral-200">
+              <SelectTrigger className="w-full sm:w-44 h-11 bg-neutral-200">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent className="bg-white">
@@ -308,13 +310,25 @@ export function SkillMarketplace({
                 </SelectItem>
               </SelectContent>
             </Select>
+            <Button
+              variant="outline"
+              className="lg:hidden"
+              onClick={() => setIsFilterSidebarOpen(true)}
+            >
+              <Filter className="w-4 h-4 mr-2" />
+              Filters
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="flex-1 overflow-hidden flex">
         {/* Filters Sidebar */}
-        <aside className="w-72 bg-white border-r border-gray-200 overflow-y-auto">
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 overflow-y-auto transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+            isFilterSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           <div className="p-6 space-y-6">
             {/* Categories */}
             <div>
@@ -325,7 +339,10 @@ export function SkillMarketplace({
                 {skillCategories.map((category) => (
                   <button
                     key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
+                    onClick={() => {
+                      setSelectedCategory(category.id);
+                      setIsFilterSidebarOpen(false); // Close sidebar on selection
+                    }}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                       selectedCategory === category.id
                         ? "bg-blue-50 text-blue-600 font-medium"
@@ -373,7 +390,10 @@ export function SkillMarketplace({
                 {[4.5, 4.0, 3.5, 3.0, 0].map((rating) => (
                   <button
                     key={rating}
-                    onClick={() => setMinRating(rating)}
+                    onClick={() => {
+                      setMinRating(rating);
+                      setIsFilterSidebarOpen(false); // Close sidebar on selection
+                    }}
                     className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                       minRating === rating
                         ? "bg-blue-50 text-blue-600"
@@ -462,9 +482,16 @@ export function SkillMarketplace({
           </div>
         </aside>
 
+        {isFilterSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsFilterSidebarOpen(false)}
+          ></div>
+        )}
+
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto">
-          <div className="p-8">
+          <div className="p-4 sm:p-6 lg:p-8">
             {/* Results Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -491,7 +518,7 @@ export function SkillMarketplace({
             </div>
 
             {/* Skills Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-white">
               {sortedSkills.map((skill) => (
                 <Card
                   key={skill.id}

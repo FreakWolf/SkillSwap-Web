@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { 
+import {
   Bell, 
   Calendar, 
   MessageCircle, 
@@ -12,7 +12,8 @@ import {
   Clock,
   MoreVertical,
   Check,
-  Settings
+  Settings,
+  Filter
 } from 'lucide-react';
 import { Separator } from './ui/separator';
 
@@ -23,6 +24,7 @@ interface NotificationsCenterProps {
 
 export function NotificationsCenter({ userData, onNavigate }: NotificationsCenterProps) {
   const [filter, setFilter] = useState('all');
+  const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
 
   const notifications = [
     {
@@ -142,21 +144,29 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
   return (
     <div className="h-full overflow-hidden flex flex-col bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Notifications</h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Notifications</h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               You have {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" onClick={markAllAsRead}>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <Button variant="outline" onClick={markAllAsRead} className="w-full sm:w-auto">
               <Check className="w-4 h-4 mr-2" />
               Mark all as read
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="w-full sm:w-auto hidden lg:flex">
               <Settings className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              className="lg:hidden"
+              onClick={() => setIsFilterSidebarOpen(true)}
+            >
+              <Filter className="w-4 h-4 mr-2" />
+              Filter
             </Button>
           </div>
         </div>
@@ -164,12 +174,19 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
 
       <div className="flex-1 overflow-hidden flex">
         {/* Filters Sidebar */}
-        <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 overflow-y-auto transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+            isFilterSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           <div className="p-4">
             <h3 className="text-sm font-semibold text-gray-900 mb-3">Filter</h3>
             <div className="space-y-1">
               <button
-                onClick={() => setFilter('all')}
+                onClick={() => {
+                  setFilter('all');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'all'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -183,7 +200,10 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
                 </Badge>
               </button>
               <button
-                onClick={() => setFilter('unread')}
+                onClick={() => {
+                  setFilter('unread');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'unread'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -202,7 +222,10 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
               <Separator className="my-3" />
 
               <button
-                onClick={() => setFilter('booking')}
+                onClick={() => {
+                  setFilter('booking');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'booking'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -213,7 +236,10 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
                 <span className="flex-1 text-left">Bookings</span>
               </button>
               <button
-                onClick={() => setFilter('message')}
+                onClick={() => {
+                  setFilter('message');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'message'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -224,7 +250,10 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
                 <span className="flex-1 text-left">Messages</span>
               </button>
               <button
-                onClick={() => setFilter('rating')}
+                onClick={() => {
+                  setFilter('rating');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'rating'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -235,7 +264,10 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
                 <span className="flex-1 text-left">Reviews</span>
               </button>
               <button
-                onClick={() => setFilter('reminder')}
+                onClick={() => {
+                  setFilter('reminder');
+                  setIsFilterSidebarOpen(false); // Close sidebar on selection
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   filter === 'reminder'
                     ? 'bg-blue-50 text-blue-600 font-medium'
@@ -249,6 +281,13 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
           </div>
         </aside>
 
+        {isFilterSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsFilterSidebarOpen(false)}
+          ></div>
+        )}
+
         {/* Notifications List */}
         <main className="flex-1 overflow-y-auto bg-white">
           <div className="divide-y divide-gray-100">
@@ -257,17 +296,17 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
               return (
                 <div
                   key={notification.id}
-                  className={`p-6 hover:bg-gray-50 transition-colors ${
+                  className={`p-4 sm:p-6 hover:bg-gray-50 transition-colors ${
                     !notification.read ? 'bg-blue-50/30' : ''
                   }`}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${getIconColor(notification.color)}`}>
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${getIconColor(notification.color)}`}>
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4 mb-1">
-                        <h4 className={`font-semibold ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-4 mb-1">
+                        <h4 className={`font-semibold text-sm sm:text-base ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
                           {notification.title}
                         </h4>
                         <div className="flex items-center gap-2 shrink-0">
@@ -277,16 +316,16 @@ export function NotificationsCenter({ userData, onNavigate }: NotificationsCente
                           )}
                         </div>
                       </div>
-                      <p className="text-sm text-gray-600 mb-3">{notification.message}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{notification.message}</p>
                       {notification.actionable && (
-                        <div className="flex items-center gap-2">
-                          <Button size="sm" variant="outline">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                          <Button size="sm" variant="outline" className="w-full sm:w-auto">
                             View Details
                           </Button>
                           {notification.type === 'booking' && (
                             <>
-                              <Button size="sm">Accept</Button>
-                              <Button size="sm" variant="outline">
+                              <Button size="sm" className="w-full sm:w-auto">Accept</Button>
+                              <Button size="sm" variant="outline" className="w-full sm:w-auto">
                                 Decline
                               </Button>
                             </>

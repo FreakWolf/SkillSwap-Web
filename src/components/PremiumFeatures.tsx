@@ -148,21 +148,22 @@ export function PremiumFeatures({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
+      <header className="bg-white border-b px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onNavigate("dashboard")}
+                className="px-2 sm:px-4"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Dashboard
+                <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Back to Dashboard</span>
               </Button>
               <div className="flex items-center space-x-2">
-                <Crown className="w-5 h-5 text-yellow-500" />
-                <h1>Premium Features</h1>
+                <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
+                <h1 className="text-lg sm:text-xl font-semibold">Premium Features</h1>
               </div>
             </div>
             <Badge
@@ -179,13 +180,13 @@ export function PremiumFeatures({
         {/* Trial Banner */}
         {!isTrialActive && currentPlan === "free" && (
           <Card className="mb-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <Gift className="w-8 h-8" />
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row items-center justify-between text-center sm:text-left space-y-4 sm:space-y-0">
+                <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                  <Gift className="w-6 h-6 sm:w-8 sm:h-8" />
                   <div>
-                    <h3>Try Premium Free for 14 Days!</h3>
-                    <p className="opacity-90">
+                    <h3 className="text-lg sm:text-xl font-semibold">Try Premium Free for 14 Days!</h3>
+                    <p className="opacity-90 text-sm">
                       Unlock all premium features with no commitment
                     </p>
                   </div>
@@ -193,7 +194,7 @@ export function PremiumFeatures({
                 <Button
                   variant="secondary"
                   onClick={handleStartTrial}
-                  className="bg-white text-blue-600 hover:bg-gray-100"
+                  className="bg-white text-blue-600 hover:bg-gray-100 w-full sm:w-auto"
                 >
                   Start Free Trial
                 </Button>
@@ -211,7 +212,7 @@ export function PremiumFeatures({
                 See how you're using your free plan limits
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-4 sm:space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Sessions this month</span>
@@ -266,7 +267,7 @@ export function PremiumFeatures({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {premiumBenefits.map((benefit) => (
                 <div key={benefit.title} className="text-center p-4">
                   <div className="mx-auto mb-4">{benefit.icon}</div>
@@ -302,7 +303,7 @@ export function PremiumFeatures({
         </div>
 
         {/* Pricing Plans */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {Object.entries(plans).map(([planKey, plan]) => (
             <Card
               key={planKey}

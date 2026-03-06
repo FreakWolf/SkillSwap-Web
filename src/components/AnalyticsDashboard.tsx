@@ -84,16 +84,16 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
 
   return (
     <div className="h-full overflow-y-auto bg-gray-50">
-      {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between">
+``      {/* Top Bar */}
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Analytics Dashboard</h1>
-            <p className="text-sm text-gray-500 mt-1">Track your learning and teaching progress</p>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Analytics Dashboard</h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">Track your learning and teaching progress</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <Select value={timeRange} onValueChange={setTimeRange}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="w-full sm:w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -103,7 +103,7 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
                 <SelectItem value="1y">Last year</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline">
+            <Button variant="outline" className="w-full sm:w-auto">
               <Download className="w-4 h-4 mr-2" />
               Export
             </Button>
@@ -122,7 +122,7 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
 
           <TabsContent value="overview" className="space-y-6">
             {/* Key Metrics */}
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
@@ -192,7 +192,7 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Sessions Over Time */}
               <Card>
                 <CardHeader>
@@ -247,7 +247,7 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
             </div>
 
             {/* Bottom Row */}
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Skills Distribution */}
               <Card>
                 <CardHeader>
@@ -344,31 +344,31 @@ export function AnalyticsDashboard({ userData, onNavigate }: AnalyticsDashboardP
               <CardContent>
                 <div className="space-y-3">
                   {topSkills.map((skill) => (
-                    <div key={skill.skill} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div key={skill.skill} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-gray-50 rounded-lg space-y-3 sm:space-y-0">
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
                           <h4 className="font-semibold">{skill.skill}</h4>
                           {skill.trend === 'up' && (
                             <Badge variant="outline" className="gap-1 text-green-600 border-green-200">
-                              <TrendingUp className="w-3 h-3" />
+                              <ArrowUp className="w-3 h-3" />
                               Trending
                             </Badge>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-8">
+                      <div className="flex flex-wrap justify-end gap-x-8 gap-y-3">
                         <div className="text-center">
-                          <p className="text-2xl font-bold text-gray-900">{skill.sessions}</p>
+                          <p className="text-xl font-bold text-gray-900">{skill.sessions}</p>
                           <p className="text-xs text-gray-500">Sessions</p>
                         </div>
                         <div className="text-center">
-                          <p className="text-2xl font-bold text-gray-900">{skill.hours}</p>
+                          <p className="text-xl font-bold text-gray-900">{skill.hours}</p>
                           <p className="text-xs text-gray-500">Hours</p>
                         </div>
                         <div className="text-center">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-center gap-1">
                             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <p className="text-2xl font-bold text-gray-900">{skill.rating}</p>
+                            <p className="text-xl font-bold text-gray-900">{skill.rating}</p>
                           </div>
                           <p className="text-xs text-gray-500">Rating</p>
                         </div>

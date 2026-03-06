@@ -99,24 +99,22 @@ export function SessionRating({ sessionData, onNavigate }: SessionRatingProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <CheckCircle className="w-6 h-6 text-green-500" />
-              <div>
-                <h1>Session Complete!</h1>
-                <p className="text-sm text-muted-foreground">
-                  Rate your experience
-                </p>
-              </div>
+      <header className="bg-white border-b px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center space-x-3">
+            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+            <div>
+              <h1 className="text-lg sm:text-xl font-semibold">Session Complete!</h1>
+              <p className="text-sm text-muted-foreground">
+                Rate your experience
+              </p>
             </div>
           </div>
         </div>
       </header>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Main Rating Form */}
           <div className="lg:col-span-2 space-y-6">
             {/* Session Summary */}
@@ -210,7 +208,7 @@ export function SessionRating({ sessionData, onNavigate }: SessionRatingProps) {
                 {/* Quick Tags */}
                 <div>
                   <h4 className="mb-3">What made this session great?</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {availableTags.map((tag) => (
                       <Button
                         key={tag}
@@ -308,14 +306,14 @@ export function SessionRating({ sessionData, onNavigate }: SessionRatingProps) {
             </Card>
 
             {/* Submit Button */}
-            <div className="flex justify-between">
-              <Button variant="outline" onClick={() => onNavigate("dashboard")}>
+            <div className="flex flex-col sm:flex-row justify-between gap-4 mt-6">
+              <Button variant="outline" onClick={() => onNavigate("dashboard")} className="w-full sm:w-auto">
                 Skip Rating
               </Button>
               <Button
                 onClick={handleSubmitRating}
                 disabled={rating === 0}
-                className="px-8"
+                className="w-full sm:w-auto px-8"
               >
                 Submit Rating
               </Button>

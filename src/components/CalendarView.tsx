@@ -22,6 +22,7 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
     new Date(),
   );
   const [viewMode, setViewMode] = useState<"week" | "month">("week");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Mock sessions data
   const sessions = [
@@ -121,11 +122,11 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
   return (
     <div className="h-full overflow-hidden flex flex-col bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Calendar</h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Calendar</h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Manage your learning and teaching sessions
             </p>
           </div>
@@ -142,9 +143,16 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
                 <SelectItem value="month">Month View</SelectItem>
               </SelectContent>
             </Select>
-            <Button onClick={() => onNavigate("marketplace")}>
+            <Button onClick={() => onNavigate("marketplace")} className="hidden sm:flex">
               <Plus className="w-4 h-4 mr-2" />
               Book Session
+            </Button>
+            <Button
+              variant="outline"
+              className="sm:hidden"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <Plus className="w-4 h-4" />
             </Button>
           </div>
         </div>
@@ -152,14 +160,21 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
 
       <div className="flex-1 overflow-hidden flex">
         {/* Calendar Sidebar */}
-        <aside className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
-          <div className="p-6">
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-full sm:w-80 bg-white border-r border-gray-200 overflow-y-auto transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="p-4 sm:p-6">
             {/* Mini Calendar */}
             <div className="mb-6">
               <Calendar
                 mode="single"
                 selected={selectedDate}
-                onSelect={setSelectedDate}
+                onSelect={(date) => {
+                  setSelectedDate(date);
+                  setIsSidebarOpen(false); // Close sidebar on date selection
+                }}
                 className="rounded-md border"
               />
             </div>
@@ -243,11 +258,18 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
           </div>
         </aside>
 
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          ></div>
+        )}
+
         {/* Main Calendar View */}
         <main className="flex-1 overflow-y-auto bg-white">
-          <div className="p-8">
+          <div className="p-4 sm:p-6 lg:p-8">
             {/* Calendar Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
               <div className="flex items-center gap-4">
                 <h2 className="text-xl font-semibold">March 2024</h2>
                 <div className="flex items-center gap-2">
@@ -276,9 +298,9 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
 
             {viewMode === "week" ? (
               /* Week View */
-              <div className="border rounded-lg overflow-hidden">
+              <div className="border rounded-lg overflow-x-auto">
                 {/* Week Header */}
-                <div className="grid grid-cols-8 border-b bg-gray-50">
+                <div className="grid grid-cols-8 border-b bg-gray-50 min-w-[700px]">
                   <div className="p-3 border-r" /> {/* Time column */}
                   {weekDays.map((day, index) => (
                     <div
@@ -294,7 +316,7 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
                 </div>
 
                 {/* Time Slots */}
-                <div className="divide-y">
+                <div className="divide-y min-w-[700px]">
                   {timeSlots.map((time) => (
                     <div
                       key={time}
@@ -347,8 +369,8 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
               </div>
             ) : (
               /* Month View */
-              <div className="border rounded-lg overflow-hidden">
-                <div className="grid grid-cols-7 border-b bg-gray-50">
+              <div className="border rounded-lg overflow-x-auto">
+                <div className="grid grid-cols-7 border-b bg-gray-50 min-w-[500px]">
                   {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
                     (day) => (
                       <div
@@ -360,7 +382,7 @@ export function CalendarView({ onNavigate }: CalendarViewProps) {
                     ),
                   )}
                 </div>
-                <div className="grid grid-cols-7">
+                <div className="grid grid-cols-7 min-w-[500px]">
                   {Array.from({ length: 35 }).map((_, index) => {
                     const dayNum = index - 4 + 1;
                     const isCurrentMonth = dayNum > 0 && dayNum <= 31;

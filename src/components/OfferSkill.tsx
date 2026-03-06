@@ -112,21 +112,21 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
   return (
     <div className="h-full overflow-y-auto bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
               Offer a Skill
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Share your expertise and teach others
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" onClick={() => onNavigate("dashboard")}>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <Button variant="outline" onClick={() => onNavigate("dashboard")} className="w-full sm:w-auto">
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
+            <Button onClick={handleSubmit} className="w-full sm:w-auto">
               <Check className="w-4 h-4 mr-2" />
               Publish Skill
             </Button>
@@ -134,7 +134,7 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Basic Information */}
           <Card>
@@ -155,7 +155,7 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category">Category *</Label>
                   <Select
@@ -273,7 +273,7 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="hourlyRate">
                     <div className="flex items-center gap-2">
@@ -372,7 +372,7 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
             <CardContent className="space-y-6">
               <div className="space-y-3">
                 <Label>Available Days</Label>
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {days.map((day) => (
                     <div key={day} className="flex items-center space-x-2">
                       <Checkbox
@@ -395,14 +395,15 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
 
               <div className="space-y-3">
                 <Label>Time Slots</Label>
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <Input
                     type="time"
                     value={newTimeSlot}
                     onChange={(e) => setNewTimeSlot(e.target.value)}
                     placeholder="Add time slot"
+                    className="w-full"
                   />
-                  <Button onClick={addTimeSlot} variant="outline">
+                  <Button onClick={addTimeSlot} variant="outline" className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
                     Add
                   </Button>
@@ -428,11 +429,11 @@ export function OfferSkill({ userData, onNavigate }: OfferSkillProps) {
           </Card>
 
           {/* Submit Section */}
-          <div className="flex justify-end gap-3 pt-4">
-            <Button variant="outline" onClick={() => onNavigate("dashboard")}>
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+            <Button variant="outline" onClick={() => onNavigate("dashboard")} className="w-full sm:w-auto">
               Save as Draft
             </Button>
-            <Button onClick={handleSubmit} size="lg">
+            <Button onClick={handleSubmit} size="lg" className="w-full sm:w-auto">
               <Check className="w-5 h-5 mr-2" />
               Publish Skill Offering
             </Button>

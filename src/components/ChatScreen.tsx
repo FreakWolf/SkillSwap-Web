@@ -199,20 +199,20 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-white border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={() => onNavigate("messages")}
+                className="shrink-0"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
+                <ArrowLeft className="w-5 h-5" />
               </Button>
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 sm:space-x-3">
                 <div className="relative">
-                  <Avatar>
+                  <Avatar className="w-9 h-9 sm:w-10 sm:h-10">
                     <AvatarFallback>
                       {conversation.participant.name
                         .split(" ")
@@ -221,7 +221,7 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
                     </AvatarFallback>
                   </Avatar>
                   <div
-                    className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${
+                    className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 border-white ${
                       conversation.participant.status === "online"
                         ? "bg-green-500"
                         : "bg-gray-400"
@@ -229,23 +229,27 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
                   ></div>
                 </div>
                 <div>
-                  <h2>{conversation.participant.name}</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <h2 className="text-base sm:text-lg font-semibold">
+                    {conversation.participant.name}
+                  </h2>
+                  <p className="text-xs text-muted-foreground hidden sm:block">
                     {conversation.participant.status === "online"
                       ? "Active now"
                       : `Last seen ${conversation.participant.lastSeen}`}
                   </p>
                 </div>
-                <Badge variant="outline">{conversation.skill}</Badge>
+                <Badge variant="outline" className="hidden sm:flex">
+                  {conversation.skill}
+                </Badge>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="sm">
-                <Search className="w-4 h-4" />
+            <div className="flex items-center space-x-1 sm:space-x-2">
+              <Button variant="ghost" size="icon" className="hidden sm:flex">
+                <Search className="w-5 h-5" />
               </Button>
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={() =>
                   onNavigate("videoCall", {
                     session: {
@@ -255,36 +259,36 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
                   })
                 }
               >
-                <Video className="w-4 h-4" />
+                <Video className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="sm">
-                <Phone className="w-4 h-4" />
+              <Button variant="ghost" size="icon" className="hidden sm:flex">
+                <Phone className="w-5 h-5" />
               </Button>
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={() => setShowInfo(!showInfo)}
               >
-                <Info className="w-4 h-4" />
+                <Info className="w-5 h-5" />
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="flex-1 flex max-w-7xl mx-auto w-full">
+      <div className="flex-1 flex max-w-full mx-auto w-full">
         {/* Messages */}
         <div className="flex-1 flex flex-col">
           {/* Messages Area */}
-          <ScrollArea className="flex-1 p-4">
-            <div className="max-w-4xl mx-auto space-y-4">
+          <ScrollArea className="flex-1 p-4 sm:p-6">
+            <div className="max-w-full mx-auto space-y-4">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`flex items-end space-x-2 max-w-xs lg:max-w-md ${
+                    className={`flex items-end space-x-2 max-w-[70%] sm:max-w-md ${
                       msg.sender === "me"
                         ? "flex-row-reverse space-x-reverse"
                         : ""
@@ -360,15 +364,15 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
           </ScrollArea>
 
           {/* Message Input */}
-          <div className="bg-white border-t p-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-end space-x-3">
-                <div className="flex space-x-2">
-                  <Button variant="ghost" size="sm">
-                    <Paperclip className="w-4 h-4" />
+          <div className="bg-white border-t p-3 sm:p-4">
+            <div className="max-w-full mx-auto">
+              <div className="flex items-end space-x-2 sm:space-x-3">
+                <div className="flex space-x-1 sm:space-x-2">
+                  <Button variant="ghost" size="icon">
+                    <Paperclip className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Button>
-                  <Button variant="ghost" size="sm">
-                    <Image className="w-4 h-4" />
+                  <Button variant="ghost" size="icon">
+                    <Image className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Button>
                 </div>
                 <div className="flex-1 relative">
@@ -377,22 +381,22 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    className="pr-12"
+                    className="pr-10 sm:pr-12"
                   />
                   <Button
                     variant="ghost"
-                    size="sm"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                    size="icon"
+                    className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2"
                   >
-                    <Smile className="w-4 h-4" />
+                    <Smile className="w-4 h-4 sm:w-5 sm:h-5" />
                   </Button>
                 </div>
                 <Button
                   onClick={handleSendMessage}
                   disabled={!message.trim()}
-                  size="sm"
+                  size="icon"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </div>
             </div>
@@ -401,23 +405,29 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
 
         {/* Info Sidebar */}
         {showInfo && (
-          <div className="w-80 bg-white border-l">
-            <div className="p-6 space-y-6">
+          <div
+            className={`fixed inset-y-0 right-0 z-50 w-full sm:w-80 bg-white border-l transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+              showInfo ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <div className="p-4 sm:p-6 space-y-6">
               {/* Profile */}
               <div className="text-center">
-                <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarFallback className="text-2xl">
+                <Avatar className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4">
+                  <AvatarFallback className="text-xl sm:text-2xl">
                     {conversation.participant.name
                       .split(" ")
                       .map((n: string) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
-                <h3>{conversation.participant.name}</h3>
+                <h3 className="text-lg sm:text-xl font-semibold">
+                  {conversation.participant.name}
+                </h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   JavaScript Expert
                 </p>
-                <div className="flex justify-center space-x-2">
+                <div className="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2">
                   <Button size="sm" onClick={() => onNavigate("publicProfile")}>
                     View Profile
                   </Button>
@@ -433,7 +443,9 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
 
               {/* Quick Actions */}
               <div className="space-y-2">
-                <h4>Quick Actions</h4>
+                <h4 className="text-base sm:text-lg font-semibold">
+                  Quick Actions
+                </h4>
                 <div className="space-y-1">
                   <Button
                     variant="ghost"
@@ -464,7 +476,9 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
 
               {/* Shared Media */}
               <div className="space-y-2">
-                <h4>Shared Media</h4>
+                <h4 className="text-base sm:text-lg font-semibold">
+                  Shared Media
+                </h4>
                 <div className="grid grid-cols-3 gap-2">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
                     <div
@@ -477,7 +491,9 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
 
               {/* Session History */}
               <div className="space-y-2">
-                <h4>Session History</h4>
+                <h4 className="text-base sm:text-lg font-semibold">
+                  Session History
+                </h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
                     <span>JavaScript Basics</span>
@@ -515,6 +531,12 @@ export function ChatScreen({ conversationData, onNavigate }: ChatScreenProps) {
               </div>
             </div>
           </div>
+        )}
+        {showInfo && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setShowInfo(false)}
+          ></div>
         )}
       </div>
     </div>

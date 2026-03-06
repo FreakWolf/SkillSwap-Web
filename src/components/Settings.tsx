@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, Bell, Shield, Palette, Save, Eye, EyeOff } from "lucide-react";
+import { User, Bell, Shield, Palette, Eye, EyeOff } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -75,10 +75,10 @@ export function Settings({ userData, onNavigate }: SettingsProps) {
     language: "en",
   });
 
-  const handleSave = () => {
-    // Handle save logic
-    console.log("Saving settings:", formData);
-  };
+  // const handleSave = () => {
+  //   // Handle save logic
+  //   console.log("Saving settings:", formData);
+  // };
 
   return (
     <div className="h-full overflow-y-auto bg-gray-50">

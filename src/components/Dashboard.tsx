@@ -91,7 +91,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Main Content - Left Column */}
           <div className="xl:col-span-2 space-y-6">
@@ -99,7 +99,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-white shadow-lg">
               <h2 className="text-2xl font-semibold mb-2">Ready to learn something new?</h2>
               <p className="opacity-90 mb-6 text-lg">Discover expert teachers or share your expertise with others</p>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg"
                   onClick={() => onNavigate('marketplace')}
@@ -121,7 +121,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="hover:shadow-md transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -201,7 +201,7 @@ export function Dashboard({ userData, onNavigate }: DashboardProps) {
               <CardContent>
                 <div className="space-y-4">
                   {recommendedMatches.map((match) => (
-                    <div key={match.id} className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-all hover:border-blue-300 cursor-pointer" onClick={() => onNavigate('publicProfile')}>
+                    <div key={match.id} className="flex flex-col sm:flex-row items-center justify-between p-4 border rounded-lg hover:shadow-md transition-all hover:border-blue-300 cursor-pointer" onClick={() => onNavigate('publicProfile')}>
                       <div className="flex items-center gap-4 flex-1">
                         <Avatar className="w-14 h-14">
                           <AvatarImage src={match.avatar} alt={match.name} />

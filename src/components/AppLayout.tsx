@@ -12,9 +12,11 @@ import {
   Crown,
   PlusCircle,
   LogOut,
+  Menu,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
+import { cn } from "./ui/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -40,6 +43,7 @@ export function AppLayout({
   const [unreadMessages] = useState(3);
   const [unreadNotifications] = useState(5);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -65,7 +69,12 @@ export function AppLayout({
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col lg:static lg:translate-x-0 transform transition-transform duration-200 ease-in-out",
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
         {/* Logo/Brand */}
         <div className="h-16 flex items-center px-6 border-b border-gray-200">
           <h1 className="font-bold text-xl text-blue-600">SkillSwap</h1>
@@ -78,7 +87,10 @@ export function AppLayout({
             return (
               <button
                 key={item.screen}
-                onClick={() => onNavigate(item.screen)}
+                onClick={() => {
+                  onNavigate(item.screen);
+                  setIsSidebarOpen(false); // Close sidebar on navigation
+                }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative ${
                   isActive(item.screen)
                     ? "bg-blue-50 text-blue-600"
@@ -98,7 +110,10 @@ export function AppLayout({
 
           <div className="pt-4 mt-4 border-t border-gray-200">
             <button
-              onClick={() => onNavigate("offerSkill")}
+              onClick={() => {
+                onNavigate("offerSkill");
+                setIsSidebarOpen(false); // Close sidebar on navigation
+              }}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors"
             >
               <PlusCircle className="w-5 h-5" />
@@ -108,7 +123,10 @@ export function AppLayout({
 
           {userData?.isPremium && (
             <button
-              onClick={() => onNavigate("premium")}
+              onClick={() => {
+                onNavigate("premium");
+                setIsSidebarOpen(false); // Close sidebar on navigation
+              }}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive("premium")
                   ? "bg-amber-50 text-amber-600"
@@ -145,16 +163,25 @@ export function AppLayout({
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => onNavigate("userProfile")}>
+              <DropdownMenuItem onClick={() => {
+                onNavigate("userProfile");
+                setIsSidebarOpen(false);
+              }}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onNavigate("settings")}>
+              <DropdownMenuItem onClick={() => {
+                onNavigate("settings");
+                setIsSidebarOpen(false);
+              }}>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => onNavigate("auth")} className="text-red-600">
+              <DropdownMenuItem onClick={() => {
+                onNavigate("auth");
+                setIsSidebarOpen(false);
+              }} className="text-red-600">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Logout</span>
               </DropdownMenuItem>
@@ -163,8 +190,28 @@ export function AppLayout({
         </div>
       </aside>
 
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Main Content */}
       <main className="flex-1 overflow-hidden">
+        {/* Mobile Header */}
+        <header className="bg-white border-b h-16 flex items-center px-4 lg:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsSidebarOpen(true)}
+            className="mr-2"
+          >
+            <Menu className="w-6 h-6" />
+          </Button>
+          <h1 className="font-bold text-xl text-blue-600">SkillSwap</h1>
+        </header>
         {children}
       </main>
     </div>

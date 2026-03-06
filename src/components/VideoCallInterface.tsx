@@ -123,29 +123,27 @@ export function VideoCallInterface({ userData, sessionData, onNavigate }: VideoC
     <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'min-h-screen'} bg-gray-900 flex flex-col`}>
       {/* Header */}
       {!isFullscreen && (
-        <header className="bg-gray-800 border-b border-gray-700">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center space-x-4 text-white">
-                <Video className="w-5 h-5" />
-                <div>
-                  <h1 className="text-lg">{session.title}</h1>
-                  <p className="text-sm text-gray-300">with {session.participant}</p>
-                </div>
+        <header className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 lg:px-8 py-2 sm:py-0">
+          <div className="flex flex-col sm:flex-row justify-between items-center h-auto sm:h-16">
+            <div className="flex items-center space-x-2 sm:space-x-4 text-white mb-2 sm:mb-0">
+              <Video className="w-4 h-4 sm:w-5 sm:h-5" />
+              <div>
+                <h1 className="text-base sm:text-lg">{session.title}</h1>
+                <p className="text-xs sm:text-sm text-gray-300">with {session.participant}</p>
               </div>
-              <div className="flex items-center space-x-4 text-white">
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{formatDuration(callDuration)}</span>
+            </div>
+            <div className="flex items-center space-x-2 sm:space-x-4 text-white">
+              <div className="flex items-center space-x-1 sm:space-x-2">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="text-sm sm:text-base">{formatDuration(callDuration)}</span>
+              </div>
+              <div className={`flex items-center space-x-1 ${getQualityColor()}`}>
+                <div className="flex space-x-1">
+                  <div className="w-1 h-2 sm:h-3 bg-current rounded"></div>
+                  <div className={`w-1 h-2 sm:h-3 rounded ${connectionQuality !== 'poor' ? 'bg-current' : 'bg-gray-500'}`}></div>
+                  <div className={`w-1 h-2 sm:h-3 rounded ${connectionQuality === 'excellent' ? 'bg-current' : 'bg-gray-500'}`}></div>
                 </div>
-                <div className={`flex items-center space-x-1 ${getQualityColor()}`}>
-                  <div className="flex space-x-1">
-                    <div className="w-1 h-3 bg-current rounded"></div>
-                    <div className={`w-1 h-3 rounded ${connectionQuality !== 'poor' ? 'bg-current' : 'bg-gray-500'}`}></div>
-                    <div className={`w-1 h-3 rounded ${connectionQuality === 'excellent' ? 'bg-current' : 'bg-gray-500'}`}></div>
-                  </div>
-                  <span className="text-xs capitalize">{connectionQuality}</span>
-                </div>
+                <span className="text-xs capitalize">{connectionQuality}</span>
               </div>
             </div>
           </div>
@@ -170,7 +168,7 @@ export function VideoCallInterface({ userData, sessionData, onNavigate }: VideoC
           </div>
 
           {/* My Video (Picture-in-Picture) */}
-          <div className="absolute top-4 right-4 w-48 h-36 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg overflow-hidden border-2 border-white/20">
+          <div className="absolute top-2 right-2 w-32 h-24 sm:w-48 sm:h-36 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg overflow-hidden border-2 border-white/20">
             <div className="w-full h-full flex items-center justify-center text-white">
               <div className="text-center">
                 <Avatar className="w-16 h-16 mx-auto mb-2">
@@ -203,7 +201,7 @@ export function VideoCallInterface({ userData, sessionData, onNavigate }: VideoC
           <Button
             variant="ghost"
             size="sm"
-            className="absolute top-4 right-56 text-white hover:bg-white/20"
+            className="absolute top-2 right-20 sm:right-56 text-white hover:bg-white/20"
             onClick={() => setIsFullscreen(!isFullscreen)}
           >
             {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
@@ -212,12 +210,15 @@ export function VideoCallInterface({ userData, sessionData, onNavigate }: VideoC
 
         {/* Chat Sidebar */}
         {showChat && (
-          <div className="w-80 bg-white border-l flex flex-col">
-            <div className="p-4 border-b">
+          <div className="fixed inset-y-0 right-0 w-full sm:w-80 bg-white border-l flex flex-col z-40">
+            <div className="p-4 border-b flex justify-between items-center">
               <h3 className="flex items-center">
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Chat
               </h3>
+              <Button variant="ghost" size="sm" className="sm:hidden" onClick={() => setShowChat(false)}>
+                <PhoneOff className="w-4 h-4" />
+              </Button>
             </div>
             <ScrollArea className="flex-1 p-4">
               <div className="space-y-4">
@@ -255,81 +256,81 @@ export function VideoCallInterface({ userData, sessionData, onNavigate }: VideoC
       {/* Control Bar */}
       <div className="bg-gray-800 border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center h-20 space-x-4">
+          <div className="flex flex-wrap justify-center items-center h-auto sm:h-20 py-2 sm:py-0 space-x-2 sm:space-x-4">
             {/* Audio Control */}
             <Button
               variant={isAudioOn ? "secondary" : "destructive"}
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
               onClick={() => setIsAudioOn(!isAudioOn)}
             >
-              {isAudioOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
+              {isAudioOn ? <Mic className="w-4 h-4 sm:w-5 sm:h-5" /> : <MicOff className="w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
 
             {/* Video Control */}
             <Button
               variant={isVideoOn ? "secondary" : "destructive"}
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
               onClick={() => setIsVideoOn(!isVideoOn)}
             >
-              {isVideoOn ? <Video className="w-5 h-5" /> : <VideoOff className="w-5 h-5" />}
+              {isVideoOn ? <Video className="w-4 h-4 sm:w-5 sm:h-5" /> : <VideoOff className="w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
 
             {/* Screen Share */}
             <Button
               variant={isScreenSharing ? "default" : "secondary"}
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
               onClick={() => setIsScreenSharing(!isScreenSharing)}
             >
-              <Share className="w-5 h-5" />
+              <Share className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
 
             {/* Chat Toggle */}
             <Button
               variant={showChat ? "default" : "secondary"}
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
               onClick={() => setShowChat(!showChat)}
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
 
             {/* Record */}
             <Button
               variant={isRecording ? "destructive" : "secondary"}
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
               onClick={() => setIsRecording(!isRecording)}
             >
-              <div className={`w-3 h-3 rounded-full ${isRecording ? 'bg-white' : 'bg-red-500'}`}></div>
+              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${isRecording ? 'bg-white' : 'bg-red-500'}`}></div>
             </Button>
 
             {/* Settings */}
             <Button
               variant="secondary"
-              size="lg"
-              className="rounded-full w-12 h-12"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12"
             >
-              <Settings className="w-5 h-5" />
+              <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
 
             {/* End Call */}
             <Button
               variant="destructive"
-              size="lg"
-              className="rounded-full w-12 h-12 ml-8"
+              size="icon"
+              className="rounded-full w-10 h-10 sm:w-12 sm:h-12 ml-2 sm:ml-8"
               onClick={handleEndCall}
             >
-              <PhoneOff className="w-5 h-5" />
+              <PhoneOff className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
           </div>
         </div>
       </div>
 
       {/* Participants Panel (when multiple users) */}
-      <div className="absolute bottom-24 left-4 bg-gray-800/90 rounded-lg p-3 text-white">
+      <div className="absolute bottom-24 left-4 bg-gray-800/90 rounded-lg p-2 sm:p-3 text-white text-xs sm:text-sm">
         <div className="flex items-center space-x-2 text-sm">
           <Users className="w-4 h-4" />
           <span>2 participants</span>

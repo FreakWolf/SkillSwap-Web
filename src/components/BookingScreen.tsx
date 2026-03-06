@@ -68,7 +68,7 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
   return (
     <div className="h-full overflow-y-auto bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Book a Session</h1>
@@ -80,15 +80,15 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
         </div>
       </div>
 
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left Column - Booking Form */}
-            <div className="col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-6">
               {/* Teacher Info */}
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
                     <Avatar className="w-16 h-16">
                       <AvatarFallback className="text-xl bg-gradient-to-br from-blue-500 to-purple-500 text-white">
                         {teacher.name.split(' ').map((n: string) => n[0]).join('')}
@@ -125,7 +125,7 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <Label className="mb-3 block">Choose a Date</Label>
                       <Calendar
@@ -167,7 +167,7 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
                 </CardHeader>
                 <CardContent>
                   <RadioGroup value={duration} onValueChange={setDuration}>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {durations.map((d) => (
                         <div key={d.value}>
                           <RadioGroupItem
@@ -199,7 +199,7 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
                 </CardHeader>
                 <CardContent>
                   <RadioGroup value={location} onValueChange={setLocation}>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <RadioGroupItem
                           value="virtual"
@@ -259,8 +259,8 @@ export function BookingScreen({ userData, bookingData, onNavigate }: BookingScre
             </div>
 
             {/* Right Column - Booking Summary */}
-            <div className="space-y-6">
-              <Card className="sticky top-6">
+            <div className="space-y-6 lg:col-span-1">
+              <Card className="lg:sticky lg:top-6">
                 <CardHeader>
                   <CardTitle>Booking Summary</CardTitle>
                 </CardHeader>

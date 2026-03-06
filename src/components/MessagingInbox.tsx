@@ -5,13 +5,15 @@ import { Avatar, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { 
-  Search, 
-  MessageCircle, 
+  Search,
+  MessageCircle,
   MoreVertical,
   Send,
   Paperclip,
   Smile,
   CheckCheck,
+  ArrowLeft,
+  Video,
 } from 'lucide-react';
 import { ScrollArea } from './ui/scroll-area';
 
@@ -24,6 +26,7 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedConversation, setSelectedConversation] = useState(1);
   const [messageInput, setMessageInput] = useState('');
+  const [isConversationListOpen, setIsConversationListOpen] = useState(true); // Default to open on larger screens
 
   // Mock conversations data
   const conversations = [
@@ -198,18 +201,30 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
   return (
     <div className="h-full overflow-hidden flex flex-col bg-gray-50">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-8 py-4">
+      <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Messages</h1>
-            <p className="text-sm text-gray-500 mt-1">Communicate with your teachers and students</p>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Messages</h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">Communicate with your teachers and students</p>
           </div>
+          <Button
+            variant="outline"
+            className="lg:hidden"
+            onClick={() => setIsConversationListOpen(true)}
+          >
+            <MessageCircle className="w-4 h-4 mr-2" />
+            Conversations
+          </Button>
         </div>
       </div>
 
       <div className="flex-1 overflow-hidden flex">
         {/* Conversations List */}
-        <aside className="w-80 bg-white border-r border-gray-200 flex flex-col">
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 w-full sm:w-80 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 ${
+            isConversationListOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
           {/* Search */}
           <div className="p-4 border-b border-gray-200">
             <div className="relative">
@@ -237,7 +252,10 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
                 {filteredConversations.map((conv) => (
                   <button
                     key={conv.id}
-                    onClick={() => setSelectedConversation(conv.id)}
+                    onClick={() => {
+                      setSelectedConversation(conv.id);
+                      setIsConversationListOpen(false); // Close sidebar on selection
+                    }}
                     className={`w-full p-4 flex items-start gap-3 hover:bg-gray-50 transition-colors text-left ${
                       selectedConversation === conv.id ? 'bg-blue-50 hover:bg-blue-50' : ''
                     }`}
@@ -280,7 +298,10 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
                 {filteredConversations.filter(c => c.type === 'learning').map((conv) => (
                   <button
                     key={conv.id}
-                    onClick={() => setSelectedConversation(conv.id)}
+                    onClick={() => {
+                      setSelectedConversation(conv.id);
+                      setIsConversationListOpen(false); // Close sidebar on selection
+                    }}
                     className={`w-full p-4 flex items-start gap-3 hover:bg-gray-50 transition-colors text-left ${
                       selectedConversation === conv.id ? 'bg-blue-50 hover:bg-blue-50' : ''
                     }`}
@@ -323,7 +344,10 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
                 {filteredConversations.filter(c => c.type === 'teaching').map((conv) => (
                   <button
                     key={conv.id}
-                    onClick={() => setSelectedConversation(conv.id)}
+                    onClick={() => {
+                      setSelectedConversation(conv.id);
+                      setIsConversationListOpen(false); // Close sidebar on selection
+                    }}
                     className={`w-full p-4 flex items-start gap-3 hover:bg-gray-50 transition-colors text-left ${
                       selectedConversation === conv.id ? 'bg-blue-50 hover:bg-blue-50' : ''
                     }`}
@@ -363,13 +387,28 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
           </Tabs>
         </aside>
 
+        {isConversationListOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsConversationListOpen(false)}
+          ></div>
+        )}
+
         {/* Chat Panel */}
         <main className="flex-1 flex flex-col bg-white">
           {selectedConversationData ? (
             <>
               {/* Chat Header */}
-              <div className="h-16 border-b border-gray-200 px-6 flex items-center justify-between">
+              <div className="h-16 border-b border-gray-200 px-4 sm:px-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="lg:hidden"
+                    onClick={() => setIsConversationListOpen(true)}
+                  >
+                    <ArrowLeft className="w-5 h-5" />
+                  </Button>
                   <div className="relative">
                     <Avatar className="w-10 h-10">
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500 text-white">
@@ -381,18 +420,21 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
                     )}
                   </div>
                   <div>
-                    <h3 className="font-semibold">{selectedConversationData.participant.name}</h3>
+                    <h3 className="font-semibold text-sm sm:text-base">{selectedConversationData.participant.name}</h3>
                     <p className="text-xs text-gray-500">
                       {selectedConversationData.participant.status === 'online' ? 'Active now' : 'Offline'}
                     </p>
                   </div>
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="hidden sm:flex">
                     {selectedConversationData.skill}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" onClick={() => onNavigate('videoCall')}>
+                  <Button variant="outline" size="sm" onClick={() => onNavigate('videoCall')} className="hidden sm:flex">
                     Start Video Call
+                  </Button>
+                  <Button variant="ghost" size="icon" className="sm:hidden">
+                    <Video className="w-5 h-5" />
                   </Button>
                   <Button variant="ghost" size="icon">
                     <MoreVertical className="w-5 h-5" />
@@ -401,7 +443,7 @@ export function MessagingInbox({ userData, onNavigate }: MessagingInboxProps) {
               </div>
 
               {/* Messages */}
-              <ScrollArea className="flex-1 px-6 py-4">
+              <ScrollArea className="flex-1 px-4 sm:px-6 py-4">
                 <div className="space-y-4">
                   {messages.map((message) => (
                     <div

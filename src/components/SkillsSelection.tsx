@@ -105,7 +105,7 @@ export function SkillsSelection({ userData, onComplete, onNavigate }: SkillsSele
       {/* Add Popular Skills */}
       <div className="space-y-2">
         <Label>Popular Skills</Label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {popularSkills.map((skill) => (
             <Button
               key={skill.name}
@@ -163,7 +163,7 @@ export function SkillsSelection({ userData, onComplete, onNavigate }: SkillsSele
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl bg-white">
+      <Card className="w-full max-w-sm sm:max-w-4xl bg-white">
         <CardHeader className="text-center px-4 sm:px-6">
           <CardTitle className="text-lg sm:text-xl">Choose Your Skills</CardTitle>
           <CardDescription className="text-sm">Tell us what you can teach and what you'd like to learn</CardDescription>

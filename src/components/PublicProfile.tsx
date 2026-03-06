@@ -159,8 +159,8 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
           <div className="lg:col-span-2 space-y-6">
             {/* Profile Header */}
             <Card>
-              <CardContent className="p-6 bg-white shadow-md rounded-lg">
-                <div className="flex items-start space-x-6">
+              <CardContent className="p-4 sm:p-6 bg-white shadow-md rounded-lg">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
                   <Avatar className="w-24 h-24">
                     {profileData.avatar ? (
                       <AvatarImage src={profileData.avatar} alt={profileData.name} />
@@ -177,7 +177,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                         <Shield className="w-5 h-5 text-blue-500" />
                       )}
                     </div>
-                    <div className="flex items-center space-x-4 text-muted-foreground mb-3">
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-muted-foreground mb-3">
                       <div className="flex items-center text-neutral-500">
                         <MapPin className="w-4 h-4 mr-1" />
                         {profileData.location}
@@ -187,7 +187,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                         Member since {profileData.memberSince}
                       </div>
                     </div>
-                    <div className="flex items-center space-x-6 mb-4">
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 mb-4">
                       <div className="flex items-center">
                         <Star className="w-4 h-4 mr-1 fill-current text-yellow-500" />
                         <span>{profileData.rating}</span>
@@ -214,7 +214,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
 
             {/* Skills & Reviews Tabs */}
             <Tabs defaultValue="skills" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-neutral-200 rounded-full">
+              <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 bg-neutral-200 rounded-full">
                 <TabsTrigger value="skills" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Skills</TabsTrigger>
                 <TabsTrigger value="reviews" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Reviews</TabsTrigger>
                 <TabsTrigger value="history" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-full">Teaching History</TabsTrigger>
@@ -230,7 +230,7 @@ export function PublicProfile({ userData, onNavigate }: PublicProfileProps) {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {profileData.teachingSkills.map((skill) => (
                         <div key={skill.name} className="border rounded-lg p-4">
                           <div className="flex justify-between items-start mb-2">
